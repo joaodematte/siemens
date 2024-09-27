@@ -1,3 +1,5 @@
+import { SupabaseClient } from '@supabase/supabase-js';
+
 export type Json =
   | string
   | number
@@ -369,3 +371,11 @@ export type Enums<
   : PublicEnumNameOrOptions extends keyof PublicSchema['Enums'] ?
     PublicSchema['Enums'][PublicEnumNameOrOptions]
   : never;
+
+export type Client = SupabaseClient<Database>;
+
+export type Inverter = Database['public']['Tables']['inverter']['Row'];
+export type Manufacturer = Database['public']['Tables']['manufacturer']['Row'];
+export type Panel = Database['public']['Tables']['panel']['Row'];
+export type SingleLineDiagram =
+  Database['public']['Tables']['single_line_diagram']['Row'];
