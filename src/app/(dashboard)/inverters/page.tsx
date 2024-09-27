@@ -7,7 +7,5 @@ export default async function InverterPage() {
 
   const inverters = await getInverters(supabase);
 
-  console.log(inverters);
-
   return <InvertersTable data={inverters ?? []} />;
 }
