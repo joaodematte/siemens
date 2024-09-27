@@ -1,11 +1,16 @@
-import { createClient } from '@/server/supabase/server';
+import { Header } from '@/components/header';
+import { Sidebar } from '@/components/sidebar';
 
 export default async function Home() {
-  const supabase = createClient();
-
-  const session = await supabase.auth.getUser();
-
   return (
-    <div>{JSON.stringify(session.data.user?.user_metadata.display_name)}</div>
+    <div className="flex">
+      <Sidebar />
+      <div className="flex min-h-screen w-full grow flex-col">
+        <Header />
+        <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+          asd
+        </main>
+      </div>
+    </div>
   );
 }
