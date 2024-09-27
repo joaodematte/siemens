@@ -34,7 +34,7 @@ const sidebarItems: SidebarItem[] = [
     type: 'button',
     name: 'Gerar Diagrama',
     icon: <File size={18} strokeWidth={2.5} />,
-    href: '/dashboard/generate'
+    href: '/generate'
   },
   {
     id: 2,
@@ -45,14 +45,14 @@ const sidebarItems: SidebarItem[] = [
     type: 'button',
     name: 'Inversores',
     icon: <ArrowDownUp size={18} strokeWidth={2.5} />,
-    href: '/dashboard/inverters'
+    href: '/inverters'
   },
   {
     id: 4,
     type: 'button',
     name: 'Painéis',
     icon: <Columns2 size={18} strokeWidth={2.5} />,
-    href: '/dashboard/panels'
+    href: '/panels'
   }
 ];
 

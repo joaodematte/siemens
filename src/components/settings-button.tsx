@@ -10,7 +10,7 @@ export function SettingsButton() {
   return (
     <DropdownMenuItem
       onClick={() => {
-        router.push('/dashboard/settings');
+        router.push('/settings');
       }}
     >
       Configurações
