@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { createInverterAction } from '@/server/actions/inverter/create-inverter-action';
-import { createSchema } from '@/server/schemas/inverter/create-schema';
+import { createSchema } from '@/server/schemas/inverter';
 import { Manufacturer } from '@/server/supabase/types';
 
 interface Props {
@@ -51,7 +51,7 @@ export function NewInverterForm({ manufacturers }: Props) {
   const parsedManufacturers = useMemo(
     () =>
       manufacturers.map((manufacturer) => ({
-        value: manufacturer.id,
+        value: manufacturer.name,
         label: manufacturer.name
       })),
     [manufacturers]

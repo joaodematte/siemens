@@ -2,8 +2,10 @@
 
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
 import { ColumnDef } from '@tanstack/react-table';
+import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
+import { toast } from 'sonner';
 
 import { GenericDataTable } from '@/components/tables/generic-data-table';
 import {
@@ -24,6 +26,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
+import { deleteInverterAction } from '@/server/actions/inverter/delete-inverter-action';
 import { Inverter, Manufacturer, Profile } from '@/server/supabase/types';
 
 interface Props {
@@ -38,21 +41,20 @@ export default function InvertersTable({ data }: Props) {
     null
   );
 
-  // const { execute } = useAction(deleteInverterAction, {
-  //   onSuccess: ({ data }) => {
-  //     toast.success(data?.message);
-  //   },
-  //   onError: ({ error }) => {
-  //     toast.error(error.serverError);
-  //   }
-  // });
+  const { execute } = useAction(deleteInverterAction, {
+    onSuccess: ({ data }) => {
+      toast.success(data?.message);
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+    }
+  });
 
   const handleDelete = useMemo(
     () => (id: string | null) => {
-      // if (!id) return;
+      if (!id) return;
 
-      console.log(id);
-      // execute({ inverterId: id });
+      execute({ id });
     },
     []
   );
@@ -111,9 +113,7 @@ export default function InvertersTable({ data }: Props) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() =>
-                  router.push(`/dashboard/inverters/${row.original.id}`)
-                }
+                onClick={() => router.push(`/inverters/${row.original.id}`)}
               >
                 Editar
               </DropdownMenuItem>

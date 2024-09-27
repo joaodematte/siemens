@@ -30,4 +30,10 @@ export const registerAction = actionClient
     }
 
     revalidatePath('/', 'layout');
+
+    return {
+      success: true,
+      message:
+        'Cadastro realizado com sucesso, verifique seu email para ativar sua conta.'
+    };
   });

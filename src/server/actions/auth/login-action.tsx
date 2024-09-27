@@ -23,4 +23,9 @@ export const loginAction = actionClient
     }
 
     revalidatePath('/', 'layout');
+
+    return {
+      success: true,
+      message: 'Login realizado com sucesso, redirecionando ao dashboard...'
+    };
   });

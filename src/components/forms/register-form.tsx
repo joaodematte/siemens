@@ -27,10 +27,8 @@ export function RegisterForm() {
   const router = useRouter();
 
   const { execute, isPending } = useAction(registerAction, {
-    onSuccess: () => {
-      toast.success(
-        'Cadastro realizado com sucesso, verifique seu email para ativar sua conta.'
-      );
+    onSuccess: ({ data }) => {
+      toast.success(data?.message);
 
       router.push('/login');
     },

@@ -3,28 +3,27 @@
 import { revalidatePath } from 'next/cache';
 
 import { authActionClient } from '@/server/actions/safe-action';
-import { createSchema } from '@/server/schemas/inverter';
+import { updateSchema } from '@/server/schemas/inverter';
 
-export const createInverterAction = authActionClient
-  .schema(createSchema)
+export const updateInverterAction = authActionClient
+  .schema(updateSchema)
   .action(async ({ parsedInput, ctx }) => {
-    const { model, activePower, manufacturer } = parsedInput;
+    const { id, model, activePower, manufacturer } = parsedInput;
 
     const { data: existingInverter } = await ctx.supabase
       .from('inverter')
       .select('*')
-      .eq('model', model)
-      .throwOnError();
+      .eq('id', id)
+      .single();
 
-    if (existingInverter && existingInverter.length > 0) {
-      throw new Error('Inversor já cadastrado.');
+    if (!existingInverter) {
+      throw new Error('Inversor não encontrado.');
     }
 
     const { data: existingManufacturer } = await ctx.supabase
       .from('manufacturer')
       .select('*')
-      .eq('name', manufacturer)
-      .throwOnError();
+      .eq('name', manufacturer);
 
     let manufacturerId = existingManufacturer?.at(0)?.id;
 
@@ -48,19 +47,17 @@ export const createInverterAction = authActionClient
 
     await ctx.supabase
       .from('inverter')
-      .insert({
+      .update({
         model,
         active_power: Number(activePower),
         manufacturer_id: manufacturerId
       })
-      .select()
-      .single()
-      .throwOnError();
+      .eq('id', id);
 
     revalidatePath('/inverters');
 
     return {
       success: true,
-      message: 'Inversor criado com sucesso.'
+      message: 'Inversor atualizado com sucesso.'
     };
   });

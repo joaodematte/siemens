@@ -400,9 +400,8 @@ export type Enums<
 
 export type Client = SupabaseClient<Database>;
 
-export type Inverter = Database['public']['Tables']['inverter']['Row'];
-export type Manufacturer = Database['public']['Tables']['manufacturer']['Row'];
-export type Panel = Database['public']['Tables']['panel']['Row'];
-export type SingleLineDiagram =
-  Database['public']['Tables']['single_line_diagram']['Row'];
-export type Profile = Database['public']['Tables']['profile']['Row'];
+export type Inverter = Tables<'inverter'>;
+export type Manufacturer = Tables<'manufacturer'>;
+export type Panel = Tables<'panel'>;
+export type SingleLineDiagram = Tables<'single_line_diagram'>;
+export type Profile = Tables<'profile'>;

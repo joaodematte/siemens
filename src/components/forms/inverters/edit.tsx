@@ -2,7 +2,6 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'next-safe-action/hooks';
-import { useRouter } from 'next/navigation';
 import { useMemo } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
@@ -21,39 +20,24 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { updateInverterAction } from '@/server/actions/inverter/update-inverter-action';
-import { Inverter, Manufacturer, User } from '@/types';
-
-interface InverterWithRelations extends Inverter {
-  manufacturer: Manufacturer;
-  user: User;
-}
+import { updateSchema } from '@/server/schemas/inverter';
+import { Inverter, Manufacturer } from '@/server/supabase/types';
 
 interface Props {
   manufacturers: Manufacturer[];
-  inverter: InverterWithRelations;
+  inverter: Inverter | null;
 }
 
-const formSchema = z.object({
-  model: z.string().min(2, {
-    message: 'Campo obrigatório'
-  }),
-  activePower: z.string().min(1, {
-    message: 'Campo obrigatório'
-  }),
-  manufacturerId: z.string().min(2, {
-    message: 'Campo obrigatório'
-  })
-});
+const updateSchemaOmitted = updateSchema.omit({ id: true });
 
 export function EditInverterForm({ manufacturers, inverter }: Props) {
-  const router = useRouter();
-
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof updateSchemaOmitted>>({
+    resolver: zodResolver(updateSchemaOmitted),
     defaultValues: {
-      model: inverter.model,
-      manufacturerId: inverter.manufacturerId,
-      activePower: inverter.activePower.toString()
+      model: inverter?.model,
+      // @ts-expect-error cant type it right now, todo
+      manufacturer: inverter?.manufacturer.name,
+      activePower: inverter?.active_power.toString()
     }
   });
 
@@ -61,27 +45,17 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
     onSuccess: ({ data }) => {
       toast.success(data?.message);
 
-      router.push('/dashboard/inverters');
+      form.reset();
     },
     onError: ({ error }) => {
       toast.error(error.serverError);
     }
   });
 
-  const onActivePowerChange = (value: string) => {
-    const parsedValue = Number(value);
-
-    if (isNaN(parsedValue)) {
-      return;
-    }
-
-    form.setValue('activePower', value);
-  };
-
   const parsedManufacturers = useMemo(
     () =>
       manufacturers.map((manufacturer) => ({
-        value: manufacturer.id,
+        value: manufacturer.name,
         label: manufacturer.name
       })),
     [manufacturers]
@@ -90,13 +64,11 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit((data) =>
-          execute({
-            ...data,
-            id: inverter.id,
-            activePower: Number(data.activePower)
-          })
-        )}
+        onSubmit={form.handleSubmit((data) => {
+          if (!inverter) return;
+
+          execute({ ...data, id: inverter.id });
+        })}
         className="grid grid-cols-2 gap-4 lg:max-w-2xl"
       >
         <FormField
@@ -115,7 +87,7 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
 
         <FormField
           control={form.control}
-          name="manufacturerId"
+          name="manufacturer"
           render={({ field }) => (
             <FormItem className="block">
               <FormLabel>Fabricante</FormLabel>
@@ -143,7 +115,9 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
                 <Input
                   autoComplete="off"
                   {...field}
-                  onChange={(e) => onActivePowerChange(e.target.value)}
+                  onChange={(e) =>
+                    field.onChange(e.target.value.replace(/[^0-9]/g, ''))
+                  }
                 />
               </FormControl>
               <FormMessage />
@@ -156,7 +130,8 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={`${inverter.user.name} ${inverter.user.lastName}`}
+              // @ts-expect-error cant type it right now, todo
+              value={`${inverter?.profile?.first_name} ${inverter?.profile?.last_name}`}
             />
           </FormControl>
           <FormMessage />
@@ -167,10 +142,13 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={inverter.createdAt.toLocaleDateString('pt-BR', {
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
+              value={new Date(inverter?.created_at ?? '').toLocaleDateString(
+                'pt-BR',
+                {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }
+              )}
             />
           </FormControl>
           <FormMessage />
@@ -181,10 +159,13 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={inverter.updatedAt.toLocaleDateString('pt-BR', {
-                hour: '2-digit',
-                minute: '2-digit'
-              })}
+              value={new Date(inverter?.updated_at ?? '').toLocaleDateString(
+                'pt-BR',
+                {
+                  hour: '2-digit',
+                  minute: '2-digit'
+                }
+              )}
             />
           </FormControl>
           <FormMessage />

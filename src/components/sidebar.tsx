@@ -86,7 +86,7 @@ export function Sidebar() {
   return (
     <aside className="hidden w-full max-w-64 border-r lg:block">
       <div className="flex items-start justify-center py-6">
-        <Link href="/dashboard">
+        <Link href="/">
           <Image
             src="/topsun.png"
             alt="logo"

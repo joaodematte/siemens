@@ -26,10 +26,8 @@ export function LoginForm() {
   const router = useRouter();
 
   const { execute, isPending } = useAction(loginAction, {
-    onSuccess: () => {
-      toast.success(
-        'Login realizado com sucesso, redirecionando ao dashboard...'
-      );
+    onSuccess: ({ data }) => {
+      toast.success(data?.message);
 
       router.push('/');
     },
