@@ -16,7 +16,9 @@ export const registerAction = actionClient
       password,
       options: {
         data: {
-          display_name: `${name} ${lastName}`
+          display_name: `${name} ${lastName}`,
+          first_name: name,
+          last_name: lastName
         }
       }
     });

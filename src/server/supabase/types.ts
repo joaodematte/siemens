@@ -72,7 +72,7 @@ export type Database = {
             foreignKeyName: 'inverter_created_by_fkey';
             columns: ['created_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           },
           {
@@ -86,7 +86,7 @@ export type Database = {
             foreignKeyName: 'inverter_updated_by_fkey';
             columns: ['updated_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           }
         ];
@@ -107,7 +107,7 @@ export type Database = {
           id?: string;
           name: string;
           type: string;
-          updated_at: string;
+          updated_at?: string;
           updated_by?: string;
         };
         Update: {
@@ -124,14 +124,14 @@ export type Database = {
             foreignKeyName: 'manufacturer_created_by_fkey';
             columns: ['created_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           },
           {
             foreignKeyName: 'manufacturer_updated_by_fkey';
             columns: ['updated_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           }
         ];
@@ -172,7 +172,7 @@ export type Database = {
             foreignKeyName: 'panel_created_by_fkey';
             columns: ['created_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           },
           {
@@ -186,6 +186,32 @@ export type Database = {
             foreignKeyName: 'panel_updated_by_fkey';
             columns: ['updated_by'];
             isOneToOne: false;
+            referencedRelation: 'profile';
+            referencedColumns: ['id'];
+          }
+        ];
+      };
+      profile: {
+        Row: {
+          first_name: string;
+          id: string;
+          last_name: string;
+        };
+        Insert: {
+          first_name: string;
+          id: string;
+          last_name: string;
+        };
+        Update: {
+          first_name?: string;
+          id?: string;
+          last_name?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'profile_id_fkey';
+            columns: ['id'];
+            isOneToOne: true;
             referencedRelation: 'users';
             referencedColumns: ['id'];
           }
@@ -239,14 +265,14 @@ export type Database = {
             foreignKeyName: 'single_line_diagram_created_by_fkey';
             columns: ['created_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           },
           {
             foreignKeyName: 'single_line_diagram_updated_by_fkey';
             columns: ['updated_by'];
             isOneToOne: false;
-            referencedRelation: 'users';
+            referencedRelation: 'profile';
             referencedColumns: ['id'];
           }
         ];
@@ -379,3 +405,4 @@ export type Manufacturer = Database['public']['Tables']['manufacturer']['Row'];
 export type Panel = Database['public']['Tables']['panel']['Row'];
 export type SingleLineDiagram =
   Database['public']['Tables']['single_line_diagram']['Row'];
+export type Profile = Database['public']['Tables']['profile']['Row'];

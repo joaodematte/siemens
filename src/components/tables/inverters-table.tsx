@@ -1,7 +1,6 @@
 'use client';
 
 import { DotsHorizontalIcon } from '@radix-ui/react-icons';
-import { User } from '@supabase/supabase-js';
 import { ColumnDef } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { useMemo, useState } from 'react';
@@ -25,7 +24,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Inverter, Manufacturer } from '@/server/supabase/types';
+import { Inverter, Manufacturer, Profile } from '@/server/supabase/types';
 
 interface Props {
   data: Inverter[];
@@ -70,10 +69,10 @@ export default function InvertersTable({ data }: Props) {
         )
       },
       {
-        accessorKey: 'activePower',
+        accessorKey: 'active_power',
         header: 'Potência Ativa (W)',
         cell: ({ row }) => (
-          <div className="capitalize">{row.getValue('activePower')}</div>
+          <div className="capitalize">{row.getValue('active_power')}</div>
         )
       },
       {
@@ -85,12 +84,14 @@ export default function InvertersTable({ data }: Props) {
         }
       },
       {
-        accessorKey: 'user',
+        accessorKey: 'profile',
         header: 'Criado por',
         cell: ({ row }) => {
-          const user = row.getValue<User>('user');
+          const user = row.getValue<Profile>('profile');
           return (
-            <div className="capitalize">{user.user_metadata.display_name}</div>
+            <div className="capitalize">
+              {user.first_name} {user.last_name}
+            </div>
           );
         }
       },
@@ -134,7 +135,7 @@ export default function InvertersTable({ data }: Props) {
         columns={columns}
         filterColumn="model"
         filterPlaceholder="Filtrar por modelo..."
-        addNewLink="/dashboard/inverters/new"
+        addNewLink="/inverters/new"
         addNewText="Adicionar Inversor"
       />
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
