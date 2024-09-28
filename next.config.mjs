@@ -2,7 +2,7 @@
 const nextConfig = {
   experimental: {
     outputFileTracingIncludes: {
-      '/': ['assets/**']
+      '/generate': ['assets/**']
     }
   }
 };
