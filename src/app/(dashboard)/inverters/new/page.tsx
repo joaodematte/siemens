@@ -5,7 +5,7 @@ import { getManufacturers } from '@/server/queries/manufacturers/get-manufacture
 import { createClient } from '@/server/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'dflow | Novo Inversor'
+  title: 'Topsun Engenharia | Novo Inversor'
 };
 
 export default async function NewInverterPage() {

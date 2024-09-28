@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { RegisterForm } from '@/components/forms/register-form';
 
 export const metadata: Metadata = {
-  title: 'dflow | Registro'
+  title: 'Topsun Engenharia | Registro'
 };
 
 export default function Register() {

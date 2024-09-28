@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const metadata: Metadata = {
-  title: 'dflow | Editar Inversor'
+  title: 'Topsun Engenharia | Editar Inversor'
 };
 
 export default async function EditInverterPage({ params }: Props) {

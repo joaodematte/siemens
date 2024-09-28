@@ -3,52 +3,54 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'next-safe-action/hooks';
 import { useRouter } from 'next/navigation';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { updateInverterAction } from '@/server/actions/inverter/update-inverter-action';
-import { updateSchema } from '@/server/schemas/inverter';
-import { Inverter, Manufacturer } from '@/server/supabase/types';
+import { updatePanelAction } from '@/server/actions/panel/update-panel-action';
+import { createSchema } from '@/server/schemas/panel';
+import { Manufacturer, Panel } from '@/server/supabase/types';
 
 interface Props {
   manufacturers: Manufacturer[];
-  inverter: Inverter | null;
+  panel: Panel | null;
 }
 
-const updateSchemaOmitted = updateSchema.omit({ id: true });
-
-export function EditInverterForm({ manufacturers, inverter }: Props) {
+export function EditPanelForm({ manufacturers, panel }: Props) {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof updateSchemaOmitted>>({
-    resolver: zodResolver(updateSchemaOmitted),
+  const [powerInput, setPowerInput] = useState('');
+
+  const form = useForm<z.infer<typeof createSchema>>({
+    resolver: zodResolver(createSchema),
     defaultValues: {
-      model: inverter?.model,
+      model: panel?.model ?? '',
       // @ts-expect-error cant type it right now, todo
-      manufacturer: inverter?.manufacturer.name,
-      activePower: inverter?.active_power.toString()
+      manufacturer: panel?.manufacturer.name ?? '',
+      power: panel?.power ? JSON.parse(panel.power) : []
     }
   });
 
-  const { execute, isPending } = useAction(updateInverterAction, {
+  const { execute, isPending } = useAction(updatePanelAction, {
     onSuccess: ({ data }) => {
       toast.success(data?.message);
 
-      router.push('/inverters');
+      router.push('/panels');
     },
     onError: ({ error }) => {
       toast.error(error.serverError);
@@ -64,13 +66,37 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
     [manufacturers]
   );
 
+  const handlePowerChange = (value: string) => {
+    if (value.endsWith(',')) {
+      const power = Number(value.slice(0, -1));
+      const powerInForm = form.getValues('power');
+
+      if (!powerInForm.includes(power))
+        form.setValue('power', [...powerInForm, power]);
+
+      setPowerInput('');
+      return;
+    }
+
+    setPowerInput(value);
+  };
+
+  const handleRemovePower = (power: number) => {
+    const powerInForm = form.getValues('power');
+
+    form.setValue(
+      'power',
+      powerInForm.filter((p) => p !== power)
+    );
+  };
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit((data) => {
-          if (!inverter) return;
+          if (!panel) return;
 
-          execute({ ...data, id: inverter.id });
+          execute({ ...data, id: panel.id });
         })}
         className="grid grid-cols-2 gap-4 lg:max-w-2xl"
       >
@@ -110,20 +136,27 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
 
         <FormField
           control={form.control}
-          name="activePower"
-          render={({ field }) => (
+          name="power"
+          render={() => (
             <FormItem className="col-span-2">
-              <FormLabel>Potência Ativa (W)</FormLabel>
+              <FormLabel>Potências (W)</FormLabel>
               <FormControl>
                 <Input
                   autoComplete="off"
-                  {...field}
-                  onChange={(e) =>
-                    field.onChange(e.target.value.replace(/[^0-9]/g, ''))
-                  }
+                  value={powerInput}
+                  onChange={(e) => handlePowerChange(e.target.value)}
                 />
               </FormControl>
+              <FormDescription>Separe-as por vírgula </FormDescription>
               <FormMessage />
+              <div className="flex items-center gap-1">
+                {form.getValues('power').map((power) => (
+                  <Badge key={power} className="flex items-center gap-1">
+                    <span>{power}W</span>{' '}
+                    <button onClick={() => handleRemovePower(power)}>x</button>
+                  </Badge>
+                ))}
+              </div>
             </FormItem>
           )}
         />
@@ -134,7 +167,7 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
             <Input
               disabled
               // @ts-expect-error cant type it right now, todo
-              value={`${inverter?.profile?.first_name} ${inverter?.profile?.last_name}`}
+              value={`${panel?.profile?.first_name} ${panel?.profile?.last_name}`}
             />
           </FormControl>
           <FormMessage />
@@ -145,7 +178,7 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={new Date(inverter?.created_at ?? '').toLocaleDateString(
+              value={new Date(panel?.created_at ?? '').toLocaleDateString(
                 'pt-BR',
                 {
                   hour: '2-digit',
@@ -162,7 +195,7 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={new Date(inverter?.updated_at ?? '').toLocaleDateString(
+              value={new Date(panel?.updated_at ?? '').toLocaleDateString(
                 'pt-BR',
                 {
                   hour: '2-digit',

@@ -3,21 +3,21 @@
 import { revalidatePath } from 'next/cache';
 
 import { authActionClient } from '@/server/actions/safe-action';
-import { createSchema } from '@/server/schemas/inverter';
+import { createSchema } from '@/server/schemas/panel';
 
-export const createInverterAction = authActionClient
+export const createPanelAction = authActionClient
   .schema(createSchema)
   .action(async ({ parsedInput, ctx }) => {
-    const { model, activePower, manufacturer } = parsedInput;
+    const { model, power, manufacturer } = parsedInput;
 
-    const { data: existingInverter } = await ctx.supabase
-      .from('inverter')
+    const { data: existingPanel } = await ctx.supabase
+      .from('panel')
       .select('*')
       .eq('model', model)
       .throwOnError();
 
-    if (existingInverter && existingInverter.length > 0) {
-      throw new Error('Inversor já cadastrado.');
+    if (existingPanel && existingPanel.length > 0) {
+      throw new Error('Painel já cadastrado.');
     }
 
     const { data: existingManufacturer } = await ctx.supabase
@@ -33,7 +33,7 @@ export const createInverterAction = authActionClient
         .from('manufacturer')
         .insert({
           name: manufacturer,
-          type: 'inverter'
+          type: 'panel'
         })
         .select()
         .single()
@@ -47,18 +47,18 @@ export const createInverterAction = authActionClient
     }
 
     await ctx.supabase
-      .from('inverter')
+      .from('panel')
       .insert({
         model,
-        active_power: Number(activePower),
+        power: JSON.stringify(power),
         manufacturer_id: manufacturerId
       })
       .throwOnError();
 
-    revalidatePath('/inverters');
+    revalidatePath('/panels');
 
     return {
       success: true,
-      message: 'Inversor criado com sucesso.'
+      message: 'Painel criado com sucesso.'
     };
   });

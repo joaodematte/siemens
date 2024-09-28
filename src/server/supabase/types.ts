@@ -143,7 +143,7 @@ export type Database = {
           id: string;
           manufacturer_id: string;
           model: string;
-          power: number;
+          power: string;
           updated_at: string;
           updated_by: string;
         };
@@ -153,7 +153,7 @@ export type Database = {
           id?: string;
           manufacturer_id: string;
           model: string;
-          power: number;
+          power: string;
           updated_at?: string;
           updated_by?: string;
         };
@@ -163,7 +163,7 @@ export type Database = {
           id?: string;
           manufacturer_id?: string;
           model?: string;
-          power?: number;
+          power?: string;
           updated_at?: string;
           updated_by?: string;
         };

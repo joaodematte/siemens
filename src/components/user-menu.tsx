@@ -1,4 +1,3 @@
-import { SettingsButton } from '@/components/settings-button';
 import { SignOutButton } from '@/components/sign-out-button';
 import { ThemeSwitcher } from '@/components/theme-switcher';
 import { Button } from '@/components/ui/button';
@@ -45,8 +44,8 @@ export async function UserMenu() {
         <DropdownMenuLabel>{displayName}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <ThemeSwitcher />
-        <SettingsButton />
-        <DropdownMenuItem>Suporte</DropdownMenuItem>
+        <DropdownMenuItem disabled>Configurações</DropdownMenuItem>
+        <DropdownMenuItem disabled>Suporte</DropdownMenuItem>
         <DropdownMenuSeparator />
         <SignOutButton />
       </DropdownMenuContent>

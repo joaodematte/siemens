@@ -26,22 +26,20 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { deleteInverterAction } from '@/server/actions/inverter/delete-inverter-action';
-import { Inverter, Manufacturer, Profile } from '@/server/supabase/types';
+import { deletePanelAction } from '@/server/actions/panel/delete-panel-action';
+import { Manufacturer, Panel, Profile } from '@/server/supabase/types';
 
 interface Props {
-  inverters: Inverter[];
+  panels: Panel[];
 }
 
-export default function InvertersTable({ inverters }: Props) {
+export default function PanelsTable({ panels }: Props) {
   const router = useRouter();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedInverterId, setSelectedInverterId] = useState<string | null>(
-    null
-  );
+  const [selectedPanelId, setSelectedPanelId] = useState<string | null>(null);
 
-  const { execute } = useAction(deleteInverterAction, {
+  const { execute } = useAction(deletePanelAction, {
     onSuccess: ({ data }) => {
       toast.success(data?.message);
     },
@@ -54,12 +52,14 @@ export default function InvertersTable({ inverters }: Props) {
     () => (id: string | null) => {
       if (!id) return;
 
+      console.log(id);
+
       execute({ id });
     },
     []
   );
 
-  const columns: ColumnDef<Inverter>[] = useMemo(
+  const columns: ColumnDef<Panel>[] = useMemo(
     () => [
       {
         accessorKey: 'model',
@@ -71,10 +71,12 @@ export default function InvertersTable({ inverters }: Props) {
         )
       },
       {
-        accessorKey: 'active_power',
-        header: 'Potência Ativa (W)',
+        accessorKey: 'power',
+        header: 'Potência(s) (W)',
         cell: ({ row }) => (
-          <div className="capitalize">{row.getValue('active_power')}</div>
+          <div className="capitalize">
+            {(JSON.parse(row.getValue<string>('power')) as string[]).join(', ')}
+          </div>
         )
       },
       {
@@ -90,6 +92,7 @@ export default function InvertersTable({ inverters }: Props) {
         header: 'Criado por',
         cell: ({ row }) => {
           const user = row.getValue<Profile>('profile');
+
           return (
             <div className="capitalize">
               {user.first_name} {user.last_name}
@@ -102,7 +105,7 @@ export default function InvertersTable({ inverters }: Props) {
         enableHiding: false,
         cell: ({ row }) => (
           <DropdownMenu
-            onOpenChange={() => setSelectedInverterId(row.original.id)}
+            onOpenChange={() => setSelectedPanelId(row.original.id)}
           >
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
@@ -113,7 +116,7 @@ export default function InvertersTable({ inverters }: Props) {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
               <DropdownMenuItem
-                onClick={() => router.push(`/inverters/${row.original.id}`)}
+                onClick={() => router.push(`/panels/${row.original.id}`)}
               >
                 Editar
               </DropdownMenuItem>
@@ -131,18 +134,18 @@ export default function InvertersTable({ inverters }: Props) {
   return (
     <>
       <GenericDataTable
-        data={inverters}
+        data={panels}
         columns={columns}
         filterColumn="model"
         filterPlaceholder="Filtrar por modelo..."
-        addNewLink="/inverters/new"
-        addNewText="Adicionar Inversor"
+        addNewLink="/panels/new"
+        addNewText="Adicionar Painel"
       />
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>
-              Você tem certeza que deseja excluir este inversor?
+              Você tem certeza que deseja excluir este painel?
             </AlertDialogTitle>
             <AlertDialogDescription>
               Esta ação não pode ser desfeita.
@@ -150,7 +153,7 @@ export default function InvertersTable({ inverters }: Props) {
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleDelete(selectedInverterId)}>
+            <AlertDialogAction onClick={() => handleDelete(selectedPanelId)}>
               Excluir
             </AlertDialogAction>
           </AlertDialogFooter>

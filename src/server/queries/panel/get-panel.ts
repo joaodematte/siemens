@@ -1,8 +1,8 @@
 import { Client } from '@/server/supabase/types';
 
-export async function getInverters(supabase: Client) {
+export async function getPanel(supabase: Client, id: string) {
   const { data } = await supabase
-    .from('inverter')
+    .from('panel')
     .select(
       `
         *,
@@ -17,6 +17,8 @@ export async function getInverters(supabase: Client) {
         )
       `
     )
+    .eq('id', id)
+    .single()
     .throwOnError();
 
   return data;

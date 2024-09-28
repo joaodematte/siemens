@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: 'dflow',
+  title: 'Topsun Engenharia',
   description:
     'Transforme suas ideias em diagramas profissionais com facilidade'
 };

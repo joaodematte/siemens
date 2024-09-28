@@ -8,7 +8,7 @@ import { getSingleLineDiagram } from '@/server/queries/single-line-diagram/get-s
 import { createClient } from '@/server/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'dflow | Dashboard'
+  title: 'Topsun Engenharia | Dashboard'
 };
 
 export default async function Home() {

@@ -5,7 +5,7 @@ import { getInverters } from '@/server/queries/inverter/get-inverters';
 import { createClient } from '@/server/supabase/server';
 
 export const metadata: Metadata = {
-  title: 'dflow | Inversores'
+  title: 'Topsun Engenharia | Inversores'
 };
 
 export default async function InverterPage() {
@@ -13,5 +13,5 @@ export default async function InverterPage() {
 
   const inverters = await getInverters(supabase);
 
-  return <InvertersTable data={inverters ?? []} />;
+  return <InvertersTable inverters={inverters ?? []} />;
 }

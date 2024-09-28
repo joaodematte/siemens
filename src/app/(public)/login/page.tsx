@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { LoginForm } from '@/components/forms/login-form';
 
 export const metadata: Metadata = {
-  title: 'dflow | Login'
+  title: 'Topsun Engenharia | Login'
 };
 
 export default function Login() {
