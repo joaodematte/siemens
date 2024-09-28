@@ -1,6 +1,7 @@
 'use server';
 
 import { promises as fs } from 'fs';
+import path from 'path';
 import fontkit from '@pdf-lib/fontkit';
 import { revalidatePath } from 'next/cache';
 import { PDFDocument } from 'pdf-lib';
@@ -16,8 +17,8 @@ async function generatePdf(
   const FONT_SIZE = 12;
 
   const [pdfFile, fontFile] = await Promise.all([
-    fs.readFile('./public/assets/three.pdf'),
-    fs.readFile('./public/assets/calibri.ttf')
+    fs.readFile(path.join(process.cwd(), 'assets', 'three.pdf')),
+    fs.readFile(path.join(process.cwd(), 'assets', 'calibri.ttf'))
   ]);
 
   const pdfDoc = await PDFDocument.load(pdfFile);
