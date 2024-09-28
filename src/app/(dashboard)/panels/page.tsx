@@ -13,7 +13,5 @@ export default async function PanelsPage() {
 
   const panels = await getPanels(supabase);
 
-  console.log(panels);
-
   return <PanelsTable panels={panels ?? []} />;
 }

@@ -51,8 +51,6 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
     onSuccess: ({ data }) => {
       toast.success(data?.message);
 
-      console.log(data);
-
       if (data?.signedUrl) {
         downloadFile(data.signedUrl);
       }

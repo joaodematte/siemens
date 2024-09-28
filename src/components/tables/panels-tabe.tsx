@@ -52,8 +52,6 @@ export default function PanelsTable({ panels }: Props) {
     () => (id: string | null) => {
       if (!id) return;
 
-      console.log(id);
-
       execute({ id });
     },
     []
