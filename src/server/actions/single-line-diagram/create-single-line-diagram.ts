@@ -3,7 +3,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import fontkit from '@pdf-lib/fontkit';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { PDFDocument } from 'pdf-lib';
 import { z } from 'zod';
 
@@ -11,14 +11,27 @@ import { authActionClient } from '@/server/actions/safe-action';
 import { createSchema } from '@/server/schemas/single-line-diagram';
 import { Inverter, Panel } from '@/server/supabase/types';
 
+async function getPdfFile({
+  company,
+  connectionType
+}: Pick<z.infer<typeof createSchema>, 'company' | 'connectionType'>) {
+  return fs.readFile(
+    path.join(process.cwd(), 'assets', `${company}-${connectionType}.pdf`)
+  );
+}
+
+async function getFontFile() {
+  return fs.readFile(path.join(process.cwd(), 'assets', 'calibri.ttf'));
+}
+
 async function generatePdf(
   data: z.infer<typeof createSchema> & { panel: Panel; inverter: Inverter }
 ) {
   const FONT_SIZE = 12;
 
   const [pdfFile, fontFile] = await Promise.all([
-    fs.readFile(path.join(process.cwd(), 'assets', 'three.pdf')),
-    fs.readFile(path.join(process.cwd(), 'assets', 'calibri.ttf'))
+    getPdfFile({ company: data.company, connectionType: data.connectionType }),
+    getFontFile()
   ]);
 
   const pdfDoc = await PDFDocument.load(pdfFile);
@@ -223,6 +236,11 @@ export const createSingleLineDiagram = authActionClient
         .upload(fileName, pdfBytes);
 
       if (storageError) {
+        await ctx.supabase
+          .from('single_line_diagram')
+          .delete()
+          .eq('id', singleLineDiagram.id);
+
         throw new Error(
           'Erro ao salvar diagrama unifilar simplificado no storage.'
         );
@@ -234,6 +252,11 @@ export const createSingleLineDiagram = authActionClient
           .createSignedUrl(fileName, 60 * 60);
 
       if (signedUrlError || !signedUrlData.signedUrl) {
+        await ctx.supabase
+          .from('single_line_diagram')
+          .delete()
+          .eq('id', singleLineDiagram.id);
+
         throw new Error(
           'Erro ao gerar URL de download para o diagrama unifilar simplificado.'
         );
@@ -242,7 +265,8 @@ export const createSingleLineDiagram = authActionClient
       return signedUrlData.signedUrl;
     });
 
-    revalidatePath('/');
+    revalidateTag('single-line-diagram');
+    revalidateTag(`single_line_diagram_${singleLineDiagram.id}`);
 
     return {
       success: true,

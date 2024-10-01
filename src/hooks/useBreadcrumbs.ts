@@ -7,6 +7,7 @@ interface BreadcrumbConfig {
 
 export const breadcrumbConfig: BreadcrumbConfig = {
   '/': { label: 'Dashboard', href: '/' },
+  '/generate': { label: 'Gerar Diagrama', href: '/generate' },
   '/inverters': { label: 'Inversores', href: '/inverters' },
   '/inverters/new': { label: 'Novo', href: '/inverters/new' },
   '/inverters/[id]': {

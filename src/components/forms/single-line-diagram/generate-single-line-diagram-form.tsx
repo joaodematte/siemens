@@ -27,17 +27,8 @@ import {
 } from '@/components/ui/select';
 import { useFileDownload } from '@/hooks/useFileDownload';
 import { createSingleLineDiagram } from '@/server/actions/single-line-diagram/create-single-line-diagram';
+import { createSchema } from '@/server/schemas/single-line-diagram';
 import { Inverter, Panel } from '@/server/supabase/types';
-
-const formSchema = z.object({
-  consumerUnit: z.string().min(1),
-  circuitBreakerCapacity: z.string().min(1),
-  connectionType: z.enum(['single', 'two', 'three']),
-  panelsAmount: z.string().min(1),
-  panelModel: z.string().min(1),
-  panelPower: z.string().min(1),
-  inverterModel: z.string().min(1)
-});
 
 interface Props {
   panels: Panel[] | null;
@@ -60,9 +51,10 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
     }
   });
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof createSchema>>({
+    resolver: zodResolver(createSchema),
     defaultValues: {
+      company: 'celesc',
       connectionType: 'single',
       consumerUnit: '',
       circuitBreakerCapacity: '',
@@ -102,7 +94,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
     const { name, value } = e.target;
     const numericValue = value.replace(/[^0-9]/g, '');
 
-    form.setValue(name as keyof z.infer<typeof formSchema>, numericValue);
+    form.setValue(name as keyof z.infer<typeof createSchema>, numericValue);
   };
 
   useEffect(() => {
@@ -115,8 +107,31 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(execute)}
-        className="grid grid-cols-2 gap-4 lg:max-w-2xl"
+        className="grid gap-4 md:max-w-2xl md:grid-cols-2"
       >
+        <FormField
+          control={form.control}
+          name="company"
+          render={({ field }) => (
+            <FormItem className="md:col-span-2">
+              <FormLabel>Companhia</FormLabel>
+              <FormControl>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione..." />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="celesc" defaultChecked>
+                      CELESC
+                    </SelectItem>
+                    <SelectItem value="dcelt">DCELT</SelectItem>
+                  </SelectContent>
+                </Select>
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
         <FormField
           control={form.control}
           name="consumerUnit"
@@ -235,7 +250,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           control={form.control}
           name="inverterModel"
           render={({ field }) => (
-            <FormItem className="col-span-2">
+            <FormItem className="md:col-span-2">
               <FormLabel>Modelo do Inversor</FormLabel>
               <FormControl>
                 <ComboBox
@@ -249,8 +264,8 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           )}
         />
 
-        <div className="col-span-2 flex flex-col gap-1">
-          <Button type="submit" className="col-span-2" disabled={isLoading}>
+        <div className="flex flex-col gap-1 md:col-span-2">
+          <Button type="submit" className="md:col-span-2" disabled={isLoading}>
             {isLoading ?
               <LoadingIcon className="h-4 w-4" />
             : 'Gerar'}
@@ -258,7 +273,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           <Button
             type="button"
             variant="outline"
-            className="col-span-2"
+            className="md:col-span-2"
             disabled={isLoading}
             onClick={() => {
               form.reset();

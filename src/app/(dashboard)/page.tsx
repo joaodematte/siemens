@@ -4,7 +4,7 @@ import { Metadata } from 'next';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getInverters } from '@/server/queries/inverter/get-inverters';
 import { getPanels } from '@/server/queries/panel/get-panels';
-import { getSingleLineDiagram } from '@/server/queries/single-line-diagram/get-single-line-diagrams';
+import { getSingleLineDiagrams } from '@/server/queries/single-line-diagram/get-single-line-diagrams';
 import { createClient } from '@/server/supabase/server';
 
 export const metadata: Metadata = {
@@ -17,7 +17,7 @@ export default async function Home() {
   const [panels, inverters, singleLineDiagrams] = await Promise.all([
     getPanels(supabase),
     getInverters(supabase),
-    getSingleLineDiagram(supabase)
+    getSingleLineDiagrams(supabase)
   ]);
 
   return (

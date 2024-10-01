@@ -1,10 +1,14 @@
+import { unstable_cache } from 'next/cache';
+
 import { Client } from '@/server/supabase/types';
 
 export async function getPanels(supabase: Client) {
-  const { data } = await supabase
-    .from('panel')
-    .select(
-      `
+  return unstable_cache(
+    async () => {
+      const { data } = await supabase
+        .from('panel')
+        .select(
+          `
         *,
         manufacturer:manufacturer_id (
           id,
@@ -16,8 +20,14 @@ export async function getPanels(supabase: Client) {
           last_name
         )
       `
-    )
-    .throwOnError();
+        )
+        .throwOnError();
 
-  return data;
+      return data;
+    },
+    ['panels'],
+    {
+      tags: ['panels']
+    }
+  )();
 }

@@ -1,10 +1,14 @@
+import { unstable_cache } from 'next/cache';
+
 import { Client } from '@/server/supabase/types';
 
 export async function getInverters(supabase: Client) {
-  const { data } = await supabase
-    .from('inverter')
-    .select(
-      `
+  return unstable_cache(
+    async () => {
+      const { data } = await supabase
+        .from('inverter')
+        .select(
+          `
         *,
         manufacturer:manufacturer_id (
           id,
@@ -16,8 +20,14 @@ export async function getInverters(supabase: Client) {
           last_name
         )
       `
-    )
-    .throwOnError();
+        )
+        .throwOnError();
 
-  return data;
+      return data;
+    },
+    ['inverters'],
+    {
+      tags: ['inverters']
+    }
+  )();
 }

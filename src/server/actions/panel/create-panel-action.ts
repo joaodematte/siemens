@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 
 import { authActionClient } from '@/server/actions/safe-action';
 import { createSchema } from '@/server/schemas/panel';
@@ -55,7 +55,7 @@ export const createPanelAction = authActionClient
       })
       .throwOnError();
 
-    revalidatePath('/panels');
+    revalidateTag('panels');
 
     return {
       success: true,

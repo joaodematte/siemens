@@ -19,4 +19,8 @@ export const registerSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Senhas não conferem',
     path: ['confirmPassword']
+  })
+  .refine((data) => data.email.includes('@topsun.com.br'), {
+    message: 'Email precisa terminar com @topsun.com.br',
+    path: ['email']
   });

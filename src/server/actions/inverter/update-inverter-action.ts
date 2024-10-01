@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { authActionClient } from '@/server/actions/safe-action';
 import { updateSchema } from '@/server/schemas/inverter';
@@ -54,7 +54,8 @@ export const updateInverterAction = authActionClient
       })
       .eq('id', id);
 
-    revalidatePath('/inverters');
+    revalidateTag('inverters');
+    revalidateTag(`inverter_${id}`);
 
     return {
       success: true,

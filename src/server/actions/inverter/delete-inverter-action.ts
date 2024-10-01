@@ -1,6 +1,6 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 import { authActionClient } from '@/server/actions/safe-action';
 import { deleteSchema } from '@/server/schemas/inverter';
@@ -26,7 +26,8 @@ export const deleteInverterAction = authActionClient
       throw new Error('Erro ao deletar o inversor.');
     }
 
-    revalidatePath('/inverters');
+    revalidateTag('inverters');
+    revalidateTag(`inverter_${id}`);
 
     return {
       message: 'Inversor deletado com sucesso.'
