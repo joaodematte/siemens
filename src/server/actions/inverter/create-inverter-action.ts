@@ -39,6 +39,8 @@ export const createInverterAction = authActionClient
         .single()
         .throwOnError();
 
+      revalidateTag('manufacturers');
+
       manufacturerId = createdManufacturer?.id;
     }
 

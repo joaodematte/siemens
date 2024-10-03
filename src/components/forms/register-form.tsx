@@ -149,9 +149,7 @@ export function RegisterForm() {
         />
 
         <Button className="w-full" disabled={isPending}>
-          {isPending ?
-            <LoadingIcon className="h-4 w-4" />
-          : 'Confirmar'}
+          {isPending ? <LoadingIcon className="h-4 w-4" /> : 'Confirmar'}
         </Button>
         <Link
           href="/login"

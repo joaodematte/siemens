@@ -1,7 +1,6 @@
 'use client';
 
 import { ArrowDownUp, Columns2, File, House } from 'lucide-react';
-import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -87,11 +86,11 @@ export function Sidebar() {
     <aside className="hidden w-full max-w-64 border-r lg:block">
       <div className="flex items-start justify-center py-6">
         <Link href="/">
-          <Image
+          <img
             src="/topsun.png"
             alt="logo"
             width={100}
-            height={100}
+            height={28.56}
             className="invert dark:invert-0"
           />
         </Link>

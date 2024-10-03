@@ -66,9 +66,9 @@ export function ComboBox({
           className="w-full justify-between"
           disabled={disabled}
         >
-          {value ?
-            (data.find((item) => item.value === value)?.label ?? value)
-          : placeholder}
+          {value
+            ? (data.find((item) => item.value === value)?.label ?? value)
+            : placeholder}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
@@ -83,7 +83,7 @@ export function ComboBox({
             onValueChange={setInputValue}
           />
           <CommandList>
-            {filteredData.length === 0 && canCreate ?
+            {filteredData.length === 0 && canCreate ? (
               <div className="p-1">
                 <button
                   onClick={() => handleChange(inputValue)}
@@ -93,7 +93,8 @@ export function ComboBox({
                   {inputValue}
                 </button>
               </div>
-            : <>
+            ) : (
+              <>
                 <CommandEmpty>Nenhum resultado encontrado.</CommandEmpty>
                 <CommandGroup>
                   {filteredData.map((item) => (
@@ -118,7 +119,7 @@ export function ComboBox({
                   ))}
                 </CommandGroup>
               </>
-            }
+            )}
           </CommandList>
         </Command>
       </PopoverContent>

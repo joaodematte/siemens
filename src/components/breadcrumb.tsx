@@ -28,20 +28,21 @@ export function Breadcrumb() {
         {breadcrumbs.map((item, index) => (
           <Fragment key={item.label}>
             <BreadcrumbItem>
-              {index === breadcrumbs.length - 1 ?
+              {index === breadcrumbs.length - 1 ? (
                 <BreadcrumbPage>{item.label}</BreadcrumbPage>
-              : <BreadcrumbLink asChild>
+              ) : (
+                <BreadcrumbLink asChild>
                   <Link
                     href={
-                      typeof item.href === 'function' ?
-                        item.href(lastPath)
-                      : item.href
+                      typeof item.href === 'function'
+                        ? item.href(lastPath)
+                        : item.href
                     }
                   >
                     {item.label}
                   </Link>
                 </BreadcrumbLink>
-              }
+              )}
             </BreadcrumbItem>
             {index < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
           </Fragment>

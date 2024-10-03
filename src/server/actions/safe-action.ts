@@ -1,6 +1,6 @@
 import {
-  createSafeActionClient,
-  DEFAULT_SERVER_ERROR_MESSAGE
+  DEFAULT_SERVER_ERROR_MESSAGE,
+  createSafeActionClient
 } from 'next-safe-action';
 
 import { createClient } from '@/server/supabase/server';

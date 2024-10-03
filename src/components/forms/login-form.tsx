@@ -72,12 +72,12 @@ export function LoginForm() {
             <FormItem>
               <FormLabel className="flex w-full justify-between">
                 <span>Senha</span>
-                <Link
+                {/* <Link
                   href="/forgot-password"
                   className="text-xs text-muted-foreground underline"
                 >
                   Esqueceu sua senha?
-                </Link>
+                </Link> */}
               </FormLabel>
               <FormControl>
                 <Input
@@ -92,9 +92,7 @@ export function LoginForm() {
           )}
         />
         <Button className="w-full" disabled={isPending}>
-          {isPending ?
-            <LoadingIcon className="h-4 w-4" />
-          : 'Confirmar'}
+          {isPending ? <LoadingIcon className="h-4 w-4" /> : 'Confirmar'}
         </Button>
         <Link
           href="/register"

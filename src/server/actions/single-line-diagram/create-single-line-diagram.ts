@@ -3,13 +3,111 @@
 import { promises as fs } from 'fs';
 import path from 'path';
 import fontkit from '@pdf-lib/fontkit';
-import { revalidatePath, revalidateTag } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { PDFDocument } from 'pdf-lib';
 import { z } from 'zod';
 
 import { authActionClient } from '@/server/actions/safe-action';
 import { createSchema } from '@/server/schemas/single-line-diagram';
 import { Inverter, Panel } from '@/server/supabase/types';
+
+type Position = [number, number];
+
+interface Positions {
+  [key: string]: {
+    [key: string]: {
+      consumerUnit: Position;
+      circuitBreakerCapacity: Position;
+      inverter: Position;
+      inverterManufacturerName: Position;
+      inverterModel: Position;
+      panelText: Position;
+      panelModel: Position;
+      panelPower: Position;
+      nominalPower: Position;
+      panelsPower: Position;
+    };
+  };
+}
+
+const textPositions: Positions = {
+  celesc: {
+    single: {
+      consumerUnit: [375, 455],
+      circuitBreakerCapacity: [393, 384],
+      inverter: [470, 190],
+      inverterManufacturerName: [470, 178],
+      inverterModel: [470, 166],
+      panelText: [335, 75],
+      panelModel: [335, 63],
+      panelPower: [335, 51],
+      nominalPower: [550, 64],
+      panelsPower: [550, 52]
+    },
+    two: {
+      consumerUnit: [397, 455],
+      circuitBreakerCapacity: [415, 384],
+      inverter: [492, 190],
+      inverterManufacturerName: [492, 178],
+      inverterModel: [492, 166],
+      panelText: [357, 75],
+      panelModel: [357, 63],
+      panelPower: [357, 51],
+      nominalPower: [572, 64],
+      panelsPower: [572, 52]
+    },
+    three: {
+      consumerUnit: [382, 457],
+      circuitBreakerCapacity: [400, 386],
+      inverter: [477, 192],
+      inverterManufacturerName: [477, 180],
+      inverterModel: [477, 168],
+      panelText: [342, 77],
+      panelModel: [342, 65],
+      panelPower: [342, 53],
+      nominalPower: [557, 66],
+      panelsPower: [557, 54]
+    }
+  },
+  dcelt: {
+    single: {
+      consumerUnit: [352, 453],
+      circuitBreakerCapacity: [370, 384],
+      inverter: [292, 188],
+      inverterManufacturerName: [292, 176],
+      inverterModel: [292, 164],
+      panelText: [302, 78],
+      panelModel: [302, 66],
+      panelPower: [302, 55],
+      nominalPower: [514, 62],
+      panelsPower: [514, 50]
+    },
+    two: {
+      consumerUnit: [367, 455],
+      circuitBreakerCapacity: [385, 386],
+      inverter: [307, 190],
+      inverterManufacturerName: [307, 178],
+      inverterModel: [307, 166],
+      panelText: [317, 80],
+      panelModel: [317, 68],
+      panelPower: [317, 57],
+      nominalPower: [529, 64],
+      panelsPower: [529, 52]
+    },
+    three: {
+      consumerUnit: [250, 455],
+      circuitBreakerCapacity: [268, 386.5],
+      inverter: [190, 190],
+      inverterManufacturerName: [190, 178],
+      inverterModel: [190, 166],
+      panelText: [200, 80],
+      panelModel: [200, 68],
+      panelPower: [200, 56],
+      nominalPower: [412, 64],
+      panelsPower: [412, 52]
+    }
+  }
+};
 
 async function getPdfFile({
   company,
@@ -42,12 +140,16 @@ async function generatePdf(
   const pages = pdfDoc.getPages();
   const page = pages[0];
 
+  const positions = textPositions[data.company][data.connectionType];
+
   // Consumer Unit -- START
   page.drawText(`Medidor\n${data.consumerUnit}`, {
     font,
     size: FONT_SIZE,
-    x: 250 - font.widthOfTextAtSize(data.consumerUnit, FONT_SIZE),
-    y: 455,
+    x:
+      positions.consumerUnit[0] -
+      font.widthOfTextAtSize(data.consumerUnit, FONT_SIZE),
+    y: positions.consumerUnit[1],
     lineHeight: FONT_SIZE
   });
   // Consumer Unit -- END
@@ -56,8 +158,8 @@ async function generatePdf(
   page.drawText(`${data.circuitBreakerCapacity}A`, {
     font,
     size: FONT_SIZE,
-    x: 268,
-    y: 386.5
+    x: positions.circuitBreakerCapacity[0],
+    y: positions.circuitBreakerCapacity[1]
   });
   // Circuit Breaker Capacity -- END
 
@@ -65,8 +167,9 @@ async function generatePdf(
   page.drawText('Inversor', {
     font,
     size: FONT_SIZE,
-    x: 190 - font.widthOfTextAtSize('Inversor', FONT_SIZE) / 2,
-    y: 190,
+    x:
+      positions.inverter[0] - font.widthOfTextAtSize('Inversor', FONT_SIZE) / 2,
+    y: positions.inverter[1],
     lineHeight: FONT_SIZE
   });
 
@@ -75,18 +178,20 @@ async function generatePdf(
     font,
     size: FONT_SIZE,
     x:
-      190 -
+      positions.inverterManufacturerName[0] -
       // @ts-expect-error -- TODO: Fix this
       font.widthOfTextAtSize(data.inverter.manufacturer.name, FONT_SIZE) / 2,
-    y: 178,
+    y: positions.inverterManufacturerName[1],
     lineHeight: FONT_SIZE
   });
 
   page.drawText(data.inverterModel, {
     font,
     size: FONT_SIZE,
-    x: 190 - font.widthOfTextAtSize(data.inverterModel, FONT_SIZE) / 2,
-    y: 166,
+    x:
+      positions.inverterModel[0] -
+      font.widthOfTextAtSize(data.inverterModel, FONT_SIZE) / 2,
+    y: positions.inverterModel[1],
     lineHeight: FONT_SIZE
   });
   // Inverter -- END
@@ -97,22 +202,24 @@ async function generatePdf(
     font,
     size: FONT_SIZE,
     x:
-      200 -
+      positions.panelText[0] -
       font.widthOfTextAtSize(
         // @ts-expect-error -- TODO: Fix this
         `Módulo ${data.panel.manufacturer.name}`,
         FONT_SIZE
       ) /
         2,
-    y: 80,
+    y: positions.panelText[1],
     lineHeight: FONT_SIZE
   });
 
   page.drawText(data.panelModel, {
     font,
     size: FONT_SIZE,
-    x: 200 - font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
-    y: 68,
+    x:
+      positions.panelModel[0] -
+      font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
+    y: positions.panelModel[1],
     lineHeight: FONT_SIZE
   });
 
@@ -121,18 +228,24 @@ async function generatePdf(
   page.drawText(panelPowerString, {
     font,
     size: FONT_SIZE,
-    x: 200 - font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
-    y: 56,
+    x:
+      positions.panelPower[0] -
+      font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
+    y: positions.panelPower[1],
     lineHeight: FONT_SIZE
   });
   // Panel -- END
 
   // Nominal Power -- START
-  page.drawText(`Inversor = 3000W`, {
+  const inverterPower = `Inversor = ${data.inverter.active_power}W`;
+
+  page.drawText(inverterPower, {
     font,
     size: FONT_SIZE,
-    x: 412 - font.widthOfTextAtSize('Inversor = 3000W', FONT_SIZE) / 2,
-    y: 64,
+    x:
+      positions.nominalPower[0] -
+      font.widthOfTextAtSize(inverterPower, FONT_SIZE) / 2,
+    y: positions.nominalPower[1],
     lineHeight: FONT_SIZE
   });
 
@@ -141,8 +254,10 @@ async function generatePdf(
   page.drawText(`Módulos = ${panelPower}Wp`, {
     font,
     size: FONT_SIZE,
-    x: 412 - font.widthOfTextAtSize(`Módulos = ${panelPower}Wp`, FONT_SIZE) / 2,
-    y: 52,
+    x:
+      positions.panelsPower[0] -
+      font.widthOfTextAtSize(`Módulos = ${panelPower}Wp`, FONT_SIZE) / 2,
+    y: positions.panelsPower[1],
     lineHeight: FONT_SIZE
   });
   // Nominal Power -- END
@@ -224,45 +339,10 @@ export const createSingleLineDiagram = authActionClient
       );
     }
 
-    const signedUrl = await generatePdf({
+    const buffer = await generatePdf({
       ...parsedInput,
       panel,
       inverter
-    }).then(async (pdfBytes) => {
-      const fileName = `${singleLineDiagram.id}.pdf`;
-
-      const { error: storageError } = await ctx.supabase.storage
-        .from('single_line_diagrams')
-        .upload(fileName, pdfBytes);
-
-      if (storageError) {
-        await ctx.supabase
-          .from('single_line_diagram')
-          .delete()
-          .eq('id', singleLineDiagram.id);
-
-        throw new Error(
-          'Erro ao salvar diagrama unifilar simplificado no storage.'
-        );
-      }
-
-      const { data: signedUrlData, error: signedUrlError } =
-        await ctx.supabase.storage
-          .from('single_line_diagrams')
-          .createSignedUrl(fileName, 60 * 60);
-
-      if (signedUrlError || !signedUrlData.signedUrl) {
-        await ctx.supabase
-          .from('single_line_diagram')
-          .delete()
-          .eq('id', singleLineDiagram.id);
-
-        throw new Error(
-          'Erro ao gerar URL de download para o diagrama unifilar simplificado.'
-        );
-      }
-
-      return signedUrlData.signedUrl;
     });
 
     revalidateTag('single-line-diagram');
@@ -271,6 +351,9 @@ export const createSingleLineDiagram = authActionClient
     return {
       success: true,
       message: 'Diagrama Unifilar Simplificado criado com sucesso.',
-      signedUrl
+      file: {
+        buffer,
+        name: `${singleLineDiagram.id}.pdf`
+      }
     };
   });

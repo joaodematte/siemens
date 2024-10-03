@@ -42,8 +42,8 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
     onSuccess: ({ data }) => {
       toast.success(data?.message);
 
-      if (data?.signedUrl) {
-        downloadFile(data.signedUrl);
+      if (data?.file) {
+        downloadFile(data.file.buffer, data.file.name);
       }
     },
     onError: ({ error }) => {
@@ -266,9 +266,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
 
         <div className="flex flex-col gap-1 md:col-span-2">
           <Button type="submit" className="md:col-span-2" disabled={isLoading}>
-            {isLoading ?
-              <LoadingIcon className="h-4 w-4" />
-            : 'Gerar'}
+            {isLoading ? <LoadingIcon className="h-4 w-4" /> : 'Gerar'}
           </Button>
           <Button
             type="button"

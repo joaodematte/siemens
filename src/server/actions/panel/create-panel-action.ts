@@ -39,6 +39,8 @@ export const createPanelAction = authActionClient
         .single()
         .throwOnError();
 
+      revalidateTag('manufacturers');
+
       manufacturerId = createdManufacturer?.id;
     }
 

@@ -175,9 +175,7 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
         </FormItem>
 
         <Button type="submit" className="col-span-2" disabled={isPending}>
-          {isPending ?
-            <LoadingIcon className="h-4 w-4" />
-          : 'Confirmar'}
+          {isPending ? <LoadingIcon className="h-4 w-4" /> : 'Confirmar'}
         </Button>
       </form>
     </Form>

@@ -54,8 +54,8 @@ export const updatePanelAction = authActionClient
       })
       .eq('id', id);
 
-      revalidateTag('panels');
-      revalidateTag(`panel_${id}`);
+    revalidateTag('panels');
+    revalidateTag(`panel_${id}`);
 
     return {
       success: true,
