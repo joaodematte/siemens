@@ -16,121 +16,274 @@ type Position = [number, number];
 interface Positions {
   [key: string]: {
     [key: string]: {
-      consumerUnit: Position;
-      circuitBreakerCapacity: Position;
-      inverter: Position;
-      inverterManufacturerName: Position;
-      inverterModel: Position;
-      panelText: Position;
-      panelModel: Position;
-      panelPower: Position;
-      nominalPower: Position;
-      panelsPower: Position;
+      [key: string]: {
+        consumerUnit: Position;
+        circuitBreakerCapacity: Position;
+        firstInverter: Position;
+        firstInverterManufacturerName: Position;
+        firstInverterModel: Position;
+        secondInverter?: Position;
+        secondInverterManufacturerName?: Position;
+        secondInverterModel?: Position;
+        firstPanelText: Position;
+        firstPanelModel: Position;
+        firstPanelPower: Position;
+        secondPanelText?: Position;
+        secondPanelModel?: Position;
+        secondPanelPower?: Position;
+        nominalPower: Position;
+        panelsPower: Position;
+      };
     };
   };
 }
 
 const textPositions: Positions = {
   celesc: {
-    single: {
-      consumerUnit: [375, 455],
-      circuitBreakerCapacity: [393, 384],
-      inverter: [470, 190],
-      inverterManufacturerName: [470, 178],
-      inverterModel: [470, 166],
-      panelText: [335, 75],
-      panelModel: [335, 63],
-      panelPower: [335, 51],
-      nominalPower: [550, 64],
-      panelsPower: [550, 52]
+    one: {
+      single: {
+        consumerUnit: [375, 455],
+        circuitBreakerCapacity: [393, 384],
+        firstInverter: [470, 190],
+        firstInverterManufacturerName: [470, 178],
+        firstInverterModel: [470, 166],
+        firstPanelText: [335, 75],
+        firstPanelModel: [335, 63],
+        firstPanelPower: [335, 51],
+        nominalPower: [550, 64],
+        panelsPower: [550, 52]
+      },
+      two: {
+        consumerUnit: [397, 455],
+        circuitBreakerCapacity: [415, 384],
+        firstInverter: [492, 190],
+        firstInverterManufacturerName: [492, 178],
+        firstInverterModel: [492, 166],
+        firstPanelText: [357, 75],
+        firstPanelModel: [357, 63],
+        firstPanelPower: [357, 51],
+        nominalPower: [572, 64],
+        panelsPower: [572, 52]
+      },
+      three: {
+        consumerUnit: [382, 457],
+        circuitBreakerCapacity: [400, 386],
+        firstInverter: [477, 192],
+        firstInverterManufacturerName: [477, 180],
+        firstInverterModel: [477, 168],
+        firstPanelText: [342, 77],
+        firstPanelModel: [342, 65],
+        firstPanelPower: [342, 53],
+        nominalPower: [557, 66],
+        panelsPower: [557, 54]
+      }
     },
     two: {
-      consumerUnit: [397, 455],
-      circuitBreakerCapacity: [415, 384],
-      inverter: [492, 190],
-      inverterManufacturerName: [492, 178],
-      inverterModel: [492, 166],
-      panelText: [357, 75],
-      panelModel: [357, 63],
-      panelPower: [357, 51],
-      nominalPower: [572, 64],
-      panelsPower: [572, 52]
-    },
-    three: {
-      consumerUnit: [382, 457],
-      circuitBreakerCapacity: [400, 386],
-      inverter: [477, 192],
-      inverterManufacturerName: [477, 180],
-      inverterModel: [477, 168],
-      panelText: [342, 77],
-      panelModel: [342, 65],
-      panelPower: [342, 53],
-      nominalPower: [557, 66],
-      panelsPower: [557, 54]
+      single: {
+        consumerUnit: [367, 455],
+        circuitBreakerCapacity: [385, 384],
+        firstInverter: [350, 186],
+        firstInverterManufacturerName: [350, 174],
+        firstInverterModel: [350, 162],
+        secondInverter: [435, 186],
+        secondInverterManufacturerName: [435, 174],
+        secondInverterModel: [435, 162],
+        firstPanelText: [215, 75],
+        firstPanelModel: [215, 63],
+        firstPanelPower: [215, 51],
+        secondPanelText: [440, 75],
+        secondPanelModel: [440, 63],
+        secondPanelPower: [440, 51],
+        nominalPower: [640, 64],
+        panelsPower: [640, 52]
+      },
+      two: {
+        consumerUnit: [378, 455],
+        circuitBreakerCapacity: [396, 384],
+        firstInverter: [361, 186],
+        firstInverterManufacturerName: [361, 174],
+        firstInverterModel: [361, 162],
+        secondInverter: [446, 186],
+        secondInverterManufacturerName: [446, 174],
+        secondInverterModel: [446, 162],
+        firstPanelText: [226, 75],
+        firstPanelModel: [226, 63],
+        firstPanelPower: [226, 51],
+        secondPanelText: [451, 75],
+        secondPanelModel: [451, 63],
+        secondPanelPower: [451, 51],
+        nominalPower: [651, 64],
+        panelsPower: [651, 52]
+      },
+      three: {
+        consumerUnit: [380, 457],
+        circuitBreakerCapacity: [400, 386],
+        firstInverter: [363, 188],
+        firstInverterManufacturerName: [363, 176],
+        firstInverterModel: [363, 164],
+        secondInverter: [449, 188],
+        secondInverterManufacturerName: [449, 176],
+        secondInverterModel: [449, 164],
+        firstPanelText: [229, 77],
+        firstPanelModel: [229, 65],
+        firstPanelPower: [229, 53],
+        secondPanelText: [454, 77],
+        secondPanelModel: [454, 65],
+        secondPanelPower: [454, 53],
+        nominalPower: [654, 66],
+        panelsPower: [654, 54]
+      }
     }
   },
   dcelt: {
-    single: {
-      consumerUnit: [352, 453],
-      circuitBreakerCapacity: [370, 384],
-      inverter: [292, 188],
-      inverterManufacturerName: [292, 176],
-      inverterModel: [292, 164],
-      panelText: [302, 78],
-      panelModel: [302, 66],
-      panelPower: [302, 55],
-      nominalPower: [514, 62],
-      panelsPower: [514, 50]
+    one: {
+      single: {
+        consumerUnit: [352, 453],
+        circuitBreakerCapacity: [370, 384],
+        firstInverter: [292, 188],
+        firstInverterManufacturerName: [292, 176],
+        firstInverterModel: [292, 164],
+        firstPanelText: [302, 78],
+        firstPanelModel: [302, 66],
+        firstPanelPower: [302, 55],
+        nominalPower: [514, 62],
+        panelsPower: [514, 50]
+      },
+      two: {
+        consumerUnit: [367, 455],
+        circuitBreakerCapacity: [385, 386],
+        firstInverter: [307, 190],
+        firstInverterManufacturerName: [307, 178],
+        firstInverterModel: [307, 166],
+        firstPanelText: [317, 80],
+        firstPanelModel: [317, 68],
+        firstPanelPower: [317, 57],
+        nominalPower: [529, 64],
+        panelsPower: [529, 52]
+      },
+      three: {
+        consumerUnit: [250, 455],
+        circuitBreakerCapacity: [268, 386.5],
+        firstInverter: [190, 190],
+        firstInverterManufacturerName: [190, 178],
+        firstInverterModel: [190, 166],
+        firstPanelText: [200, 80],
+        firstPanelModel: [200, 68],
+        firstPanelPower: [200, 56],
+        nominalPower: [412, 64],
+        panelsPower: [412, 52]
+      }
     },
     two: {
-      consumerUnit: [367, 455],
-      circuitBreakerCapacity: [385, 386],
-      inverter: [307, 190],
-      inverterManufacturerName: [307, 178],
-      inverterModel: [307, 166],
-      panelText: [317, 80],
-      panelModel: [317, 68],
-      panelPower: [317, 57],
-      nominalPower: [529, 64],
-      panelsPower: [529, 52]
-    },
-    three: {
-      consumerUnit: [250, 455],
-      circuitBreakerCapacity: [268, 386.5],
-      inverter: [190, 190],
-      inverterManufacturerName: [190, 178],
-      inverterModel: [190, 166],
-      panelText: [200, 80],
-      panelModel: [200, 68],
-      panelPower: [200, 56],
-      nominalPower: [412, 64],
-      panelsPower: [412, 52]
+      single: {
+        consumerUnit: [370, 468],
+        circuitBreakerCapacity: [388, 408],
+        firstInverter: [358, 170],
+        firstInverterManufacturerName: [358, 158],
+        firstInverterModel: [358, 146],
+        secondInverter: [438, 170],
+        secondInverterManufacturerName: [438, 158],
+        secondInverterModel: [438, 146],
+        firstPanelText: [240, 75],
+        firstPanelModel: [240, 63],
+        firstPanelPower: [240, 52],
+        secondPanelText: [430, 75],
+        secondPanelModel: [430, 63],
+        secondPanelPower: [430, 52],
+        nominalPower: [600, 62],
+        panelsPower: [600, 50]
+      },
+      two: {
+        consumerUnit: [394, 470],
+        circuitBreakerCapacity: [410, 410],
+        firstInverter: [372, 170],
+        firstInverterManufacturerName: [372, 158],
+        firstInverterModel: [372, 146],
+        secondInverter: [458, 170],
+        secondInverterManufacturerName: [458, 158],
+        secondInverterModel: [458, 146],
+        firstPanelText: [260, 75],
+        firstPanelModel: [260, 63],
+        firstPanelPower: [260, 52],
+        secondPanelText: [450, 75],
+        secondPanelModel: [450, 63],
+        secondPanelPower: [450, 52],
+        nominalPower: [630, 64],
+        panelsPower: [630, 52]
+      },
+      three: {
+        consumerUnit: [389, 470],
+        circuitBreakerCapacity: [405, 410],
+        firstInverter: [368, 170],
+        firstInverterManufacturerName: [368, 158],
+        firstInverterModel: [368, 146],
+        secondInverter: [454, 170],
+        secondInverterManufacturerName: [454, 158],
+        secondInverterModel: [454, 146],
+        firstPanelText: [260, 75],
+        firstPanelModel: [260, 63],
+        firstPanelPower: [260, 52],
+        secondPanelText: [450, 75],
+        secondPanelModel: [450, 63],
+        secondPanelPower: [450, 52],
+        nominalPower: [625, 64],
+        panelsPower: [625, 52]
+      }
     }
   }
 };
 
+const cache = new Map<string, Buffer>();
+
 async function getPdfFile({
   company,
-  connectionType
-}: Pick<z.infer<typeof createSchema>, 'company' | 'connectionType'>) {
-  return fs.readFile(
-    path.join(process.cwd(), 'assets', `${company}-${connectionType}.pdf`)
-  );
+  connectionType,
+  invertersQuantity,
+  cacheKey
+}: Pick<
+  z.infer<typeof createSchema>,
+  'company' | 'connectionType' | 'invertersQuantity'
+> & { cacheKey: string }) {
+  const inMemory = cache.get(cacheKey);
+
+  if (inMemory) return inMemory;
+
+  return fs.readFile(path.join(process.cwd(), 'assets', cacheKey));
 }
 
 async function getFontFile() {
-  return fs.readFile(path.join(process.cwd(), 'assets', 'calibri.ttf'));
+  const inMemory = cache.get('font');
+
+  if (inMemory) return inMemory;
+
+  return fs.readFile(
+    path.join(process.cwd(), 'assets', 'fonts', 'calibri.ttf')
+  );
 }
 
 async function generatePdf(
-  data: z.infer<typeof createSchema> & { panel: Panel; inverter: Inverter }
+  data: z.infer<typeof createSchema> & {
+    panel: Panel;
+    firstInverter: Inverter;
+    secondInverter?: Inverter | null;
+  }
 ) {
   const FONT_SIZE = 12;
 
+  const pdfCacheKey = `${data.company}/${data.invertersQuantity}-inverter/${data.connectionType}.pdf`;
+
   const [pdfFile, fontFile] = await Promise.all([
-    getPdfFile({ company: data.company, connectionType: data.connectionType }),
+    getPdfFile({
+      company: data.company,
+      connectionType: data.connectionType,
+      invertersQuantity: data.invertersQuantity,
+      cacheKey: pdfCacheKey
+    }),
     getFontFile()
   ]);
+
+  if (!cache.get(pdfCacheKey)) cache.set(pdfCacheKey, pdfFile);
+  if (!cache.get('font')) cache.set('font', fontFile);
 
   const pdfDoc = await PDFDocument.load(pdfFile);
 
@@ -140,7 +293,8 @@ async function generatePdf(
   const pages = pdfDoc.getPages();
   const page = pages[0];
 
-  const positions = textPositions[data.company][data.connectionType];
+  const positions =
+    textPositions[data.company][data.invertersQuantity][data.connectionType];
 
   // Consumer Unit -- START
   page.drawText(`Medidor\n${data.consumerUnit}`, {
@@ -163,53 +317,109 @@ async function generatePdf(
   });
   // Circuit Breaker Capacity -- END
 
-  // Inverter -- START
-  page.drawText('Inversor', {
+  const inverterFontSize = data.secondInverter ? FONT_SIZE - 3 : FONT_SIZE;
+
+  // First Inverter -- START
+  page.drawText('Inversor 1', {
     font,
-    size: FONT_SIZE,
+    size: inverterFontSize,
     x:
-      positions.inverter[0] - font.widthOfTextAtSize('Inversor', FONT_SIZE) / 2,
-    y: positions.inverter[1],
-    lineHeight: FONT_SIZE
+      positions.firstInverter[0] -
+      font.widthOfTextAtSize('Inversor 1', inverterFontSize) / 2,
+    y: positions.firstInverter[1],
+    lineHeight: inverterFontSize
   });
 
   // @ts-expect-error -- TODO: Fix this
-  page.drawText(data.inverter.manufacturer.name, {
+  page.drawText(data.firstInverter.manufacturer.name, {
     font,
-    size: FONT_SIZE,
+    size: inverterFontSize,
     x:
-      positions.inverterManufacturerName[0] -
-      // @ts-expect-error -- TODO: Fix this
-      font.widthOfTextAtSize(data.inverter.manufacturer.name, FONT_SIZE) / 2,
-    y: positions.inverterManufacturerName[1],
-    lineHeight: FONT_SIZE
+      positions.firstInverterManufacturerName[0] -
+      font.widthOfTextAtSize(
+        // @ts-expect-error -- TODO: Fix this
+        data.firstInverter.manufacturer.name,
+        inverterFontSize
+      ) /
+        2,
+    y: positions.firstInverterManufacturerName[1],
+    lineHeight: inverterFontSize
   });
 
-  page.drawText(data.inverterModel, {
+  page.drawText(data.firstInverterModel, {
     font,
-    size: FONT_SIZE,
+    size: inverterFontSize,
     x:
-      positions.inverterModel[0] -
-      font.widthOfTextAtSize(data.inverterModel, FONT_SIZE) / 2,
-    y: positions.inverterModel[1],
-    lineHeight: FONT_SIZE
+      positions.firstInverterModel[0] -
+      font.widthOfTextAtSize(data.firstInverterModel, inverterFontSize) / 2,
+    y: positions.firstInverterModel[1],
+    lineHeight: inverterFontSize
   });
-  // Inverter -- END
+  // First Inverter -- END
 
-  // Panel -- START
+  // Second Inverter -- START
+  if (
+    data.secondInverter &&
+    data.secondInverterModel !== undefined &&
+    positions.secondInverter &&
+    positions.secondInverterManufacturerName &&
+    positions.secondInverterModel
+  ) {
+    page.drawText('Inversor 2', {
+      font,
+      size: inverterFontSize,
+      x:
+        positions.secondInverter[0] -
+        font.widthOfTextAtSize('Inversor 2', inverterFontSize) / 2,
+      y: positions.secondInverter[1],
+      lineHeight: inverterFontSize
+    });
+
+    // @ts-expect-error -- TODO: Fix this
+    page.drawText(data.firstInverter.manufacturer.name, {
+      font,
+      size: inverterFontSize,
+      x:
+        positions.secondInverterManufacturerName[0] -
+        font.widthOfTextAtSize(
+          // @ts-expect-error -- TODO: Fix this
+          data.firstInverter.manufacturer.name,
+          inverterFontSize
+        ) /
+          2,
+      y: positions.secondInverterManufacturerName[1],
+      lineHeight: inverterFontSize
+    });
+
+    page.drawText(data.secondInverterModel, {
+      font,
+      size: inverterFontSize,
+      x:
+        positions.secondInverterModel[0] -
+        font.widthOfTextAtSize(data.secondInverterModel, inverterFontSize) / 2,
+      y: positions.secondInverterModel[1],
+      lineHeight: inverterFontSize
+    });
+  }
+  // Second Inverter -- END
+
+  // First Panel -- START
+
+  const firstPanelsAmount = data.firstInverterPanelsAmount ?? data.panelsAmount;
+
   // @ts-expect-error -- TODO: Fix this
   page.drawText(`Módulo ${data.panel.manufacturer.name}`, {
     font,
     size: FONT_SIZE,
     x:
-      positions.panelText[0] -
+      positions.firstPanelText[0] -
       font.widthOfTextAtSize(
         // @ts-expect-error -- TODO: Fix this
         `Módulo ${data.panel.manufacturer.name}`,
         FONT_SIZE
       ) /
         2,
-    y: positions.panelText[1],
+    y: positions.firstPanelText[1],
     lineHeight: FONT_SIZE
   });
 
@@ -217,27 +427,81 @@ async function generatePdf(
     font,
     size: FONT_SIZE,
     x:
-      positions.panelModel[0] -
+      positions.firstPanelModel[0] -
       font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
-    y: positions.panelModel[1],
+    y: positions.firstPanelModel[1],
     lineHeight: FONT_SIZE
   });
 
-  const panelPowerString = `${data.panelsAmount}x${data.panelPower}Wp`;
+  const panelPowerString = `${firstPanelsAmount}x${data.panelPower}Wp`;
 
   page.drawText(panelPowerString, {
     font,
     size: FONT_SIZE,
     x:
-      positions.panelPower[0] -
+      positions.firstPanelPower[0] -
       font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
-    y: positions.panelPower[1],
+    y: positions.firstPanelPower[1],
     lineHeight: FONT_SIZE
   });
-  // Panel -- END
+  // First Panel -- END
+
+  // Second Panel -- START
+  if (
+    data.secondInverter &&
+    data.secondInverterModel !== undefined &&
+    positions.secondPanelText &&
+    positions.secondPanelPower &&
+    positions.secondPanelModel
+  ) {
+    // @ts-expect-error -- TODO: Fix this
+    page.drawText(`Módulo ${data.panel.manufacturer.name}`, {
+      font,
+      size: FONT_SIZE,
+      x:
+        positions.secondPanelText[0] -
+        font.widthOfTextAtSize(
+          // @ts-expect-error -- TODO: Fix this
+          `Módulo ${data.panel.manufacturer.name}`,
+          FONT_SIZE
+        ) /
+          2,
+      y: positions.secondPanelText[1],
+      lineHeight: FONT_SIZE
+    });
+
+    page.drawText(data.panelModel, {
+      font,
+      size: FONT_SIZE,
+      x:
+        positions.secondPanelModel[0] -
+        font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
+      y: positions.secondPanelModel[1],
+      lineHeight: FONT_SIZE
+    });
+
+    const panelPowerString = `${data.secondInverterPanelsAmount}x${data.panelPower}Wp`;
+
+    page.drawText(panelPowerString, {
+      font,
+      size: FONT_SIZE,
+      x:
+        positions.secondPanelPower[0] -
+        font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
+      y: positions.secondPanelPower[1],
+      lineHeight: FONT_SIZE
+    });
+  }
+  // Second Panel -- END
 
   // Nominal Power -- START
-  const inverterPower = `Inversor = ${data.inverter.active_power}W`;
+  let inverterPower = undefined;
+
+  if (data.secondInverter && data.secondInverterModel !== undefined) {
+    inverterPower = `Inversor = ${(data.firstInverter.active_power + data.secondInverter.active_power).toLocaleString('pt-BR')}W`;
+  } else {
+    inverterPower = `Inversor = ${data.firstInverter.active_power.toLocaleString('pt-BR')}W`;
+  }
 
   page.drawText(inverterPower, {
     font,
@@ -249,7 +513,9 @@ async function generatePdf(
     lineHeight: FONT_SIZE
   });
 
-  const panelPower = Number(data.panelPower) * Number(data.panelsAmount);
+  const panelPower = (
+    Number(data.panelPower) * Number(data.panelsAmount)
+  ).toLocaleString('pt-BR');
 
   page.drawText(`Módulos = ${panelPower}Wp`, {
     font,
@@ -277,7 +543,8 @@ export const createSingleLineDiagram = authActionClient
       panelsAmount,
       panelModel,
       panelPower,
-      inverterModel
+      firstInverterModel,
+      secondInverterModel
     } = parsedInput;
 
     const { data: panel } = await ctx.supabase
@@ -295,7 +562,7 @@ export const createSingleLineDiagram = authActionClient
       .single()
       .throwOnError();
 
-    const { data: inverter } = await ctx.supabase
+    const { data: firstInverter } = await ctx.supabase
       .from('inverter')
       .select(
         `
@@ -306,16 +573,43 @@ export const createSingleLineDiagram = authActionClient
           )
       `
       )
-      .eq('model', inverterModel)
+      .eq('model', firstInverterModel)
       .single()
       .throwOnError();
+
+    let secondInverter = undefined;
+
+    if (firstInverterModel === secondInverterModel) {
+      secondInverter = firstInverter;
+    } else if (secondInverterModel !== undefined) {
+      const { data } = await ctx.supabase
+        .from('inverter')
+        .select(
+          `
+          *,
+          manufacturer:manufacturer_id (
+            id,
+            name
+          )
+      `
+        )
+        .eq('model', secondInverterModel)
+        .single()
+        .throwOnError();
+
+      secondInverter = data;
+    }
 
     if (!panel) {
       throw new Error('Painel não encontrado.');
     }
 
-    if (!inverter) {
-      throw new Error('Inversor não encontrado.');
+    if (!firstInverter) {
+      throw new Error('Inversor 1 não encontrado.');
+    }
+
+    if (!secondInverter && secondInverterModel !== undefined) {
+      throw new Error('Inversor 2 não encontrado.');
     }
 
     const { data: singleLineDiagram } = await ctx.supabase
@@ -327,7 +621,8 @@ export const createSingleLineDiagram = authActionClient
         panels_amount: Number(panelsAmount),
         panel_model: panelModel,
         panel_power: panelPower,
-        inverter_model: inverterModel
+        first_inverter_model: firstInverterModel,
+        second_inverter_model: secondInverterModel
       })
       .select('*')
       .single()
@@ -342,7 +637,8 @@ export const createSingleLineDiagram = authActionClient
     const buffer = await generatePdf({
       ...parsedInput,
       panel,
-      inverter
+      firstInverter,
+      secondInverter
     });
 
     revalidateTag('single-line-diagram');

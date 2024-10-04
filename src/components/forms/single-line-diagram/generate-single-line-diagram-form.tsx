@@ -1,21 +1,21 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useAction } from 'next-safe-action/hooks';
-import { useEffect, useMemo } from 'react';
-import { useForm } from 'react-hook-form';
-import { toast } from 'sonner';
-import { z } from 'zod';
-
 import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
 import { Button } from '@/components/ui/button';
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogTrigger
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
+  FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import {
@@ -25,10 +25,18 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
 import { useFileDownload } from '@/hooks/useFileDownload';
+import { cn } from '@/lib/utils';
 import { createSingleLineDiagram } from '@/server/actions/single-line-diagram/create-single-line-diagram';
 import { createSchema } from '@/server/schemas/single-line-diagram';
 import { Inverter, Panel } from '@/server/supabase/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useAction } from 'next-safe-action/hooks';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { z } from 'zod';
 
 interface Props {
   panels: Panel[] | null;
@@ -38,12 +46,27 @@ interface Props {
 export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
   const { downloadFile, isDownloading } = useFileDownload();
 
+  const [pdfName, setPdfName] = useState('');
+  const [base64PDF, setBase64PDF] = useState('');
+  const [isViewerOpen, setIsViewerOpen] = useState(false);
+
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    if (!iframeRef.current) return;
+
+    iframeRef.current.src = 'data:application/pdf;base64,' + base64PDF;
+  }, [base64PDF, iframeRef.current]);
+
   const { execute, isPending } = useAction(createSingleLineDiagram, {
     onSuccess: ({ data }) => {
       toast.success(data?.message);
 
       if (data?.file) {
-        downloadFile(data.file.buffer, data.file.name);
+        // downloadFile(data.file.buffer, data.file.name);
+        setBase64PDF(Buffer.from(data.file.buffer).toString('base64'));
+        setPdfName(data.file.name);
+        setIsViewerOpen(true);
       }
     },
     onError: ({ error }) => {
@@ -61,7 +84,11 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
       panelsAmount: '',
       panelModel: '',
       panelPower: '',
-      inverterModel: ''
+      invertersQuantity: 'one',
+      firstInverterModel: '',
+      secondInverterModel: undefined,
+      firstInverterPanelsAmount: undefined,
+      secondInverterPanelsAmount: undefined
     }
   });
 
@@ -103,11 +130,14 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
 
   const isLoading = isPending || isDownloading;
 
+  const invertersQuantity = form.watch('invertersQuantity');
+  const hasTwoInverters = invertersQuantity === 'two';
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(execute)}
-        className="grid gap-4 md:max-w-2xl md:grid-cols-2"
+        className="grid grid-cols-1 gap-4 md:max-w-2xl md:grid-cols-2"
       >
         <FormField
           control={form.control}
@@ -128,6 +158,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   </SelectContent>
                 </Select>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -141,6 +172,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
               <FormControl>
                 <Input autoComplete="off" {...field} />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -158,6 +190,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   onChange={handleInputChange}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -180,6 +213,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   <SelectItem value="three">Trifásica</SelectItem>
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -197,6 +231,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   onChange={handleInputChange}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -215,6 +250,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   data={parsedPanels ?? []}
                 />
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -242,27 +278,138 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                     ))}
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
 
+        <Separator className="col-span-2 my-4" />
+
         <FormField
           control={form.control}
-          name="inverterModel"
-          render={({ field }) => (
-            <FormItem className="md:col-span-2">
-              <FormLabel>Modelo do Inversor</FormLabel>
+          name="invertersQuantity"
+          render={() => (
+            <FormItem className="col-span-2 grid">
+              <FormLabel>Quantidade de Inversores</FormLabel>
               <FormControl>
-                <ComboBox
-                  placeholder="Selecione..."
-                  onChange={field.onChange}
-                  value={field.value}
-                  data={parsedInverters ?? []}
-                />
+                <div className="grid grid-cols-2 w-full gap-4 h-12">
+                  <button
+                    type="button"
+                    className={cn(
+                      'border-border border rounded-md focus-visible:outline-primary transition-colors duraiton-200 hover:bg-accent',
+                      invertersQuantity === 'one' && 'border-primary border-4'
+                    )}
+                    onClick={() => {
+                      form.setValue('invertersQuantity', 'one');
+                      form.setValue('secondInverterModel', undefined);
+                      form.setValue('firstInverterPanelsAmount', undefined);
+                      form.setValue('secondInverterPanelsAmount', undefined);
+                    }}
+                  >
+                    1
+                  </button>
+                  <button
+                    type="button"
+                    className={cn(
+                      'border-border border rounded-md focus-visible:outline-primary transition-colors duraiton-200 hover:bg-accent',
+                      hasTwoInverters && 'border-primary border-4'
+                    )}
+                    onClick={() => {
+                      form.setValue('invertersQuantity', 'two');
+                    }}
+                  >
+                    2
+                  </button>
+                </div>
               </FormControl>
+              <FormMessage />
             </FormItem>
           )}
         />
+
+        <div className="grid grid-cols-2 gap-4 md:col-span-2">
+          <FormField
+            control={form.control}
+            name="firstInverterModel"
+            render={({ field }) => (
+              <FormItem className={cn(!hasTwoInverters && 'md:col-span-2')}>
+                <FormLabel>Modelo do Inversor 1</FormLabel>
+                <FormControl>
+                  <ComboBox
+                    placeholder="Selecione..."
+                    onChange={field.onChange}
+                    value={field.value}
+                    data={parsedInverters ?? []}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {hasTwoInverters && (
+            <FormField
+              control={form.control}
+              name="firstInverterPanelsAmount"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantidade de Módulos no Inversor 1</FormLabel>
+                  <FormControl>
+                    <Input
+                      autoComplete="off"
+                      {...field}
+                      onChange={handleInputChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+        </div>
+
+        {hasTwoInverters && (
+          <div className="grid grid-cols-2 gap-4 md:col-span-2">
+            <FormField
+              control={form.control}
+              name="secondInverterModel"
+              render={({ field }) => (
+                <FormItem className={cn(!hasTwoInverters && 'md:col-span-2')}>
+                  <FormLabel>Modelo do Inversor 2</FormLabel>
+                  <FormControl>
+                    <ComboBox
+                      placeholder="Selecione..."
+                      onChange={field.onChange}
+                      value={field.value ?? ''}
+                      data={parsedInverters ?? []}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {hasTwoInverters && (
+              <FormField
+                control={form.control}
+                name="secondInverterPanelsAmount"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Quantidade de Módulos no Inversor 2</FormLabel>
+                    <FormControl>
+                      <Input
+                        autoComplete="off"
+                        {...field}
+                        onChange={handleInputChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          </div>
+        )}
 
         <div className="flex flex-col gap-1 md:col-span-2">
           <Button type="submit" className="md:col-span-2" disabled={isLoading}>
@@ -281,6 +428,35 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           </Button>
         </div>
       </form>
+
+      <Dialog open={isViewerOpen} onOpenChange={setIsViewerOpen}>
+        <DialogContent className="w-full h-[900px] max-w-7xl pt-12 flex flex-col">
+          <iframe ref={iframeRef} width="100%" height="100%" className="grow" />
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                setIsViewerOpen(false);
+                setBase64PDF('');
+              }}
+            >
+              Cancelar
+            </Button>
+            <Button
+              type="button"
+              onClick={() => {
+                setIsViewerOpen(false);
+                downloadFile(base64PDF, pdfName);
+                setPdfName('');
+                setBase64PDF('');
+              }}
+            >
+              Download
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Form>
   );
 }

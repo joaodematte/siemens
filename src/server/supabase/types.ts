@@ -9,31 +9,6 @@ export type Json =
   | Json[];
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never;
-    };
-    Views: {
-      [_ in never]: never;
-    };
-    Functions: {
-      graphql: {
-        Args: {
-          operationName?: string;
-          query?: string;
-          variables?: Json;
-          extensions?: Json;
-        };
-        Returns: Json;
-      };
-    };
-    Enums: {
-      [_ in never]: never;
-    };
-    CompositeTypes: {
-      [_ in never]: never;
-    };
-  };
   public: {
     Tables: {
       inverter: {
@@ -224,11 +199,12 @@ export type Database = {
           consumer_unit: string;
           created_at: string;
           created_by: string;
+          first_inverter_model: string;
           id: string;
-          inverter_model: string;
           panel_model: string;
           panel_power: string;
           panels_amount: number;
+          second_inverter_model: string | null;
           updated_at: string;
           updated_by: string;
         };
@@ -238,11 +214,12 @@ export type Database = {
           consumer_unit: string;
           created_at?: string;
           created_by?: string;
+          first_inverter_model: string;
           id?: string;
-          inverter_model: string;
           panel_model: string;
           panel_power: string;
           panels_amount: number;
+          second_inverter_model?: string | null;
           updated_at?: string;
           updated_by?: string;
         };
@@ -252,11 +229,12 @@ export type Database = {
           consumer_unit?: string;
           created_at?: string;
           created_by?: string;
+          first_inverter_model?: string;
           id?: string;
-          inverter_model?: string;
           panel_model?: string;
           panel_power?: string;
           panels_amount?: number;
+          second_inverter_model?: string | null;
           updated_at?: string;
           updated_by?: string;
         };

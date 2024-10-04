@@ -67,16 +67,15 @@ function SidebarItem({ item }: { item: (typeof sidebarItems)[number] }) {
     (item.href !== '/' && pathname.startsWith(item.href + '/'));
 
   return (
-    <Link href={item.href}>
-      <button
-        className={cn(
-          'flex w-full items-center gap-4 rounded-md px-4 py-2 text-sm font-bold text-muted-foreground transition-colors hover:bg-accent hover:text-foreground',
-          active && 'bg-accent text-foreground'
-        )}
-      >
-        {item.icon}
-        {item.name}
-      </button>
+    <Link
+      href={item.href}
+      className={cn(
+        'flex w-full items-center gap-4 rounded-md px-4 py-2 text-sm font-bold text-muted-foreground transition-colors hover:bg-accent hover:text-foreground  focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        active && 'bg-accent text-foreground'
+      )}
+    >
+      {item.icon}
+      {item.name}
     </Link>
   );
 }
@@ -86,13 +85,7 @@ export function Sidebar() {
     <aside className="hidden w-full max-w-64 border-r lg:block">
       <div className="flex items-start justify-center py-6">
         <Link href="/">
-          <img
-            src="/topsun.png"
-            alt="logo"
-            width={100}
-            height={28.56}
-            className="invert dark:invert-0"
-          />
+          <img src="/topsun.png" alt="logo" width={100} height={28.56} />
         </Link>
       </div>
       <div className="flex flex-col gap-1 p-6">
