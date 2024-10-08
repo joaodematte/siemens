@@ -9,6 +9,31 @@ export type Json =
   | Json[];
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never;
+    };
+    Views: {
+      [_ in never]: never;
+    };
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string;
+          query?: string;
+          variables?: Json;
+          extensions?: Json;
+        };
+        Returns: Json;
+      };
+    };
+    Enums: {
+      [_ in never]: never;
+    };
+    CompositeTypes: {
+      [_ in never]: never;
+    };
+  };
   public: {
     Tables: {
       inverter: {
@@ -17,6 +42,7 @@ export type Database = {
           created_at: string;
           created_by: string;
           id: string;
+          inmetro_code: string | null;
           manufacturer_id: string;
           model: string;
           updated_at: string;
@@ -27,6 +53,7 @@ export type Database = {
           created_at?: string;
           created_by?: string;
           id?: string;
+          inmetro_code?: string | null;
           manufacturer_id: string;
           model: string;
           updated_at?: string;
@@ -37,6 +64,7 @@ export type Database = {
           created_at?: string;
           created_by?: string;
           id?: string;
+          inmetro_code?: string | null;
           manufacturer_id?: string;
           model?: string;
           updated_at?: string;

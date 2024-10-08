@@ -33,7 +33,8 @@ export function NewInverterForm({ manufacturers }: Props) {
     defaultValues: {
       model: '',
       manufacturer: '',
-      activePower: ''
+      activePower: '',
+      inmetroCode: ''
     }
   });
 
@@ -79,9 +80,23 @@ export function NewInverterForm({ manufacturers }: Props) {
 
         <FormField
           control={form.control}
+          name="inmetroCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Código INMETRO</FormLabel>
+              <FormControl>
+                <Input autoComplete="off" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="manufacturer"
           render={({ field }) => (
-            <FormItem className="block">
+            <FormItem className="col-span-2">
               <FormLabel>Fabricante</FormLabel>
               <FormControl>
                 <ComboBox

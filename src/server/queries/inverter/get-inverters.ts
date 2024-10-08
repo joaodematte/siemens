@@ -21,6 +21,7 @@ export async function getInverters(supabase: Client) {
         )
       `
         )
+        .order('model', { ascending: true })
         .throwOnError();
 
       return data;

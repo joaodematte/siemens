@@ -9,6 +9,9 @@ export const createSchema = z.object({
   }),
   manufacturer: z.string().min(1, {
     message: 'Campo obrigatório'
+  }),
+  inmetroCode: z.string().min(1, {
+    message: 'Campo obrigatório'
   })
 });
 
@@ -23,6 +26,9 @@ export const updateSchema = z.object({
     message: 'Campo obrigatório'
   }),
   manufacturer: z.string().min(1, {
+    message: 'Campo obrigatório'
+  }),
+  inmetroCode: z.string().min(1, {
     message: 'Campo obrigatório'
   })
 });

@@ -8,7 +8,7 @@ import { createSchema } from '@/server/schemas/inverter';
 export const createInverterAction = authActionClient
   .schema(createSchema)
   .action(async ({ parsedInput, ctx }) => {
-    const { model, activePower, manufacturer } = parsedInput;
+    const { model, activePower, manufacturer, inmetroCode } = parsedInput;
 
     const { data: existingInverter } = await ctx.supabase
       .from('inverter')
@@ -53,7 +53,8 @@ export const createInverterAction = authActionClient
       .insert({
         model,
         active_power: Number(activePower),
-        manufacturer_id: manufacturerId
+        manufacturer_id: manufacturerId,
+        inmetro_code: inmetroCode
       })
       .throwOnError();
 

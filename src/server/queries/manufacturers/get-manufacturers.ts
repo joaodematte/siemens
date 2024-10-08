@@ -8,6 +8,7 @@ export async function getManufacturers(supabase: Client) {
       const { data } = await supabase
         .from('manufacturer')
         .select('*')
+        .order('name', { ascending: true })
         .throwOnError();
 
       return data;

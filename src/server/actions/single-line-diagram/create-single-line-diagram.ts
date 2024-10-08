@@ -22,9 +22,11 @@ interface Positions {
         firstInverter: Position;
         firstInverterManufacturerName: Position;
         firstInverterModel: Position;
+        firstInverterInmetroCode: Position;
         secondInverter?: Position;
         secondInverterManufacturerName?: Position;
         secondInverterModel?: Position;
+        secondInverterInmetroCode?: Position;
         firstPanelText: Position;
         firstPanelModel: Position;
         firstPanelPower: Position;
@@ -47,6 +49,7 @@ const textPositions: Positions = {
         firstInverter: [470, 190],
         firstInverterManufacturerName: [470, 178],
         firstInverterModel: [470, 166],
+        firstInverterInmetroCode: [470, 154],
         firstPanelText: [335, 75],
         firstPanelModel: [335, 63],
         firstPanelPower: [335, 51],
@@ -59,6 +62,7 @@ const textPositions: Positions = {
         firstInverter: [492, 190],
         firstInverterManufacturerName: [492, 178],
         firstInverterModel: [492, 166],
+        firstInverterInmetroCode: [492, 154],
         firstPanelText: [357, 75],
         firstPanelModel: [357, 63],
         firstPanelPower: [357, 51],
@@ -71,6 +75,7 @@ const textPositions: Positions = {
         firstInverter: [477, 192],
         firstInverterManufacturerName: [477, 180],
         firstInverterModel: [477, 168],
+        firstInverterInmetroCode: [477, 154],
         firstPanelText: [342, 77],
         firstPanelModel: [342, 65],
         firstPanelPower: [342, 53],
@@ -85,9 +90,11 @@ const textPositions: Positions = {
         firstInverter: [350, 186],
         firstInverterManufacturerName: [350, 174],
         firstInverterModel: [350, 162],
+        firstInverterInmetroCode: [350, 150],
         secondInverter: [435, 186],
         secondInverterManufacturerName: [435, 174],
         secondInverterModel: [435, 162],
+        secondInverterInmetroCode: [435, 150],
         firstPanelText: [215, 75],
         firstPanelModel: [215, 63],
         firstPanelPower: [215, 51],
@@ -103,9 +110,11 @@ const textPositions: Positions = {
         firstInverter: [361, 186],
         firstInverterManufacturerName: [361, 174],
         firstInverterModel: [361, 162],
+        firstInverterInmetroCode: [361, 150],
         secondInverter: [446, 186],
         secondInverterManufacturerName: [446, 174],
         secondInverterModel: [446, 162],
+        secondInverterInmetroCode: [446, 150],
         firstPanelText: [226, 75],
         firstPanelModel: [226, 63],
         firstPanelPower: [226, 51],
@@ -121,9 +130,11 @@ const textPositions: Positions = {
         firstInverter: [363, 188],
         firstInverterManufacturerName: [363, 176],
         firstInverterModel: [363, 164],
+        firstInverterInmetroCode: [363, 150],
         secondInverter: [449, 188],
         secondInverterManufacturerName: [449, 176],
         secondInverterModel: [449, 164],
+        secondInverterInmetroCode: [449, 150],
         firstPanelText: [229, 77],
         firstPanelModel: [229, 65],
         firstPanelPower: [229, 53],
@@ -143,6 +154,7 @@ const textPositions: Positions = {
         firstInverter: [292, 188],
         firstInverterManufacturerName: [292, 176],
         firstInverterModel: [292, 164],
+        firstInverterInmetroCode: [292, 154],
         firstPanelText: [302, 78],
         firstPanelModel: [302, 66],
         firstPanelPower: [302, 55],
@@ -155,6 +167,7 @@ const textPositions: Positions = {
         firstInverter: [307, 190],
         firstInverterManufacturerName: [307, 178],
         firstInverterModel: [307, 166],
+        firstInverterInmetroCode: [307, 154],
         firstPanelText: [317, 80],
         firstPanelModel: [317, 68],
         firstPanelPower: [317, 57],
@@ -167,6 +180,7 @@ const textPositions: Positions = {
         firstInverter: [190, 190],
         firstInverterManufacturerName: [190, 178],
         firstInverterModel: [190, 166],
+        firstInverterInmetroCode: [190, 154],
         firstPanelText: [200, 80],
         firstPanelModel: [200, 68],
         firstPanelPower: [200, 56],
@@ -181,9 +195,11 @@ const textPositions: Positions = {
         firstInverter: [358, 170],
         firstInverterManufacturerName: [358, 158],
         firstInverterModel: [358, 146],
+        firstInverterInmetroCode: [358, 134],
         secondInverter: [438, 170],
         secondInverterManufacturerName: [438, 158],
         secondInverterModel: [438, 146],
+        secondInverterInmetroCode: [438, 134],
         firstPanelText: [240, 75],
         firstPanelModel: [240, 63],
         firstPanelPower: [240, 52],
@@ -199,9 +215,11 @@ const textPositions: Positions = {
         firstInverter: [372, 170],
         firstInverterManufacturerName: [372, 158],
         firstInverterModel: [372, 146],
+        firstInverterInmetroCode: [372, 134],
         secondInverter: [458, 170],
         secondInverterManufacturerName: [458, 158],
         secondInverterModel: [458, 146],
+        secondInverterInmetroCode: [458, 134],
         firstPanelText: [260, 75],
         firstPanelModel: [260, 63],
         firstPanelPower: [260, 52],
@@ -217,9 +235,11 @@ const textPositions: Positions = {
         firstInverter: [368, 170],
         firstInverterManufacturerName: [368, 158],
         firstInverterModel: [368, 146],
+        firstInverterInmetroCode: [368, 134],
         secondInverter: [454, 170],
         secondInverterManufacturerName: [454, 158],
         secondInverterModel: [454, 146],
+        secondInverterInmetroCode: [454, 134],
         firstPanelText: [260, 75],
         firstPanelModel: [260, 63],
         firstPanelPower: [260, 52],
@@ -235,15 +255,7 @@ const textPositions: Positions = {
 
 const cache = new Map<string, Buffer>();
 
-async function getPdfFile({
-  company,
-  connectionType,
-  invertersQuantity,
-  cacheKey
-}: Pick<
-  z.infer<typeof createSchema>,
-  'company' | 'connectionType' | 'invertersQuantity'
-> & { cacheKey: string }) {
+async function getPdfFile(cacheKey: string) {
   const inMemory = cache.get(cacheKey);
 
   if (inMemory) return inMemory;
@@ -273,12 +285,7 @@ async function generatePdf(
   const pdfCacheKey = `${data.company}/${data.invertersQuantity}-inverter/${data.connectionType}.pdf`;
 
   const [pdfFile, fontFile] = await Promise.all([
-    getPdfFile({
-      company: data.company,
-      connectionType: data.connectionType,
-      invertersQuantity: data.invertersQuantity,
-      cacheKey: pdfCacheKey
-    }),
+    getPdfFile(pdfCacheKey),
     getFontFile()
   ]);
 
@@ -355,6 +362,22 @@ async function generatePdf(
     y: positions.firstInverterModel[1],
     lineHeight: inverterFontSize
   });
+
+  if (data.firstInverter.inmetro_code) {
+    page.drawText(data.firstInverter.inmetro_code, {
+      font,
+      size: inverterFontSize,
+      x:
+        positions.firstInverterInmetroCode[0] -
+        font.widthOfTextAtSize(
+          data.firstInverter.inmetro_code,
+          inverterFontSize
+        ) /
+          2,
+      y: positions.firstInverterInmetroCode[1],
+      lineHeight: inverterFontSize
+    });
+  }
   // First Inverter -- END
 
   // Second Inverter -- START
@@ -398,6 +421,26 @@ async function generatePdf(
         positions.secondInverterModel[0] -
         font.widthOfTextAtSize(data.secondInverterModel, inverterFontSize) / 2,
       y: positions.secondInverterModel[1],
+      lineHeight: inverterFontSize
+    });
+  }
+
+  if (
+    data.secondInverter &&
+    data.secondInverter.inmetro_code &&
+    positions.secondInverterInmetroCode
+  ) {
+    page.drawText(data.secondInverter.inmetro_code, {
+      font,
+      size: inverterFontSize,
+      x:
+        positions.secondInverterInmetroCode[0] -
+        font.widthOfTextAtSize(
+          data.secondInverter.inmetro_code,
+          inverterFontSize
+        ) /
+          2,
+      y: positions.secondInverterInmetroCode[1],
       lineHeight: inverterFontSize
     });
   }

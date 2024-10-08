@@ -8,7 +8,7 @@ import { updateSchema } from '@/server/schemas/inverter';
 export const updateInverterAction = authActionClient
   .schema(updateSchema)
   .action(async ({ parsedInput, ctx }) => {
-    const { id, model, activePower, manufacturer } = parsedInput;
+    const { id, model, activePower, manufacturer, inmetroCode } = parsedInput;
 
     const { data: existingInverter } = await ctx.supabase
       .from('inverter')
@@ -50,7 +50,8 @@ export const updateInverterAction = authActionClient
       .update({
         model,
         active_power: Number(activePower),
-        manufacturer_id: manufacturerId
+        manufacturer_id: manufacturerId,
+        inmetro_code: inmetroCode
       })
       .eq('id', id);
 

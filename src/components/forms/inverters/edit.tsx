@@ -40,7 +40,8 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
       model: inverter?.model,
       // @ts-expect-error cant type it right now, todo
       manufacturer: inverter?.manufacturer.name,
-      activePower: inverter?.active_power.toString()
+      activePower: inverter?.active_power.toString(),
+      inmetroCode: inverter?.inmetro_code ?? ''
     }
   });
 
@@ -90,9 +91,23 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
 
         <FormField
           control={form.control}
+          name="inmetroCode"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Código INMETRO</FormLabel>
+              <FormControl>
+                <Input autoComplete="off" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
           name="manufacturer"
           render={({ field }) => (
-            <FormItem className="block">
+            <FormItem className="col-span-2">
               <FormLabel>Fabricante</FormLabel>
               <FormControl>
                 <ComboBox

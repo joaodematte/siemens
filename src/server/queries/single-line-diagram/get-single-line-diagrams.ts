@@ -8,6 +8,7 @@ export async function getSingleLineDiagrams(supabase: Client) {
       const { data } = await supabase
         .from('single_line_diagram')
         .select('*')
+        .order('created_at', { ascending: false })
         .throwOnError();
 
       return data;
