@@ -168,7 +168,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           name="consumerUnit"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Unidade Consumidora</FormLabel>
+              <FormLabel>Número do Medidor</FormLabel>
               <FormControl>
                 <Input autoComplete="off" {...field} />
               </FormControl>
