@@ -11,14 +11,7 @@ import { z } from 'zod';
 import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { updateInverterAction } from '@/server/actions/inverter/update-inverter-action';
 import { updateSchema } from '@/server/schemas/inverter';
@@ -133,9 +126,7 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
                 <Input
                   autoComplete="off"
                   {...field}
-                  onChange={(e) =>
-                    field.onChange(e.target.value.replace(/[^0-9]/g, ''))
-                  }
+                  onChange={(e) => field.onChange(e.target.value.replace(/[^0-9]/g, ''))}
                 />
               </FormControl>
               <FormMessage />
@@ -160,13 +151,10 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={new Date(inverter?.created_at ?? '').toLocaleDateString(
-                'pt-BR',
-                {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }
-              )}
+              value={new Date(inverter?.created_at ?? '').toLocaleDateString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
             />
           </FormControl>
           <FormMessage />
@@ -177,13 +165,10 @@ export function EditInverterForm({ manufacturers, inverter }: Props) {
           <FormControl>
             <Input
               disabled
-              value={new Date(inverter?.updated_at ?? '').toLocaleDateString(
-                'pt-BR',
-                {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }
-              )}
+              value={new Date(inverter?.updated_at ?? '').toLocaleDateString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
             />
           </FormControl>
           <FormMessage />

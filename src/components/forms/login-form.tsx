@@ -10,14 +10,7 @@ import { z } from 'zod';
 
 import { LoadingIcon } from '@/components/loading-icon';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { loginAction } from '@/server/actions/auth/login-action';
 import { loginSchema } from '@/server/schemas/auth/login-schema';
@@ -54,11 +47,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="johndoe@topsun.com.br"
-                  autoComplete="email"
-                  {...field}
-                />
+                <Input placeholder="johndoe@topsun.com.br" autoComplete="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -80,12 +69,7 @@ export function LoginForm() {
                 </Link> */}
               </FormLabel>
               <FormControl>
-                <Input
-                  placeholder="••••••••"
-                  autoComplete="current-password"
-                  type="password"
-                  {...field}
-                />
+                <Input placeholder="••••••••" autoComplete="current-password" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -94,10 +78,7 @@ export function LoginForm() {
         <Button className="w-full" disabled={isPending}>
           {isPending ? <LoadingIcon className="h-4 w-4" /> : 'Confirmar'}
         </Button>
-        <Link
-          href="/register"
-          className="mt-2 text-center text-xs text-muted-foreground underline"
-        >
+        <Link href="/register" className="text-muted-foreground mt-2 text-center text-xs underline">
           Não tem uma conta? Registre-se
         </Link>
       </form>

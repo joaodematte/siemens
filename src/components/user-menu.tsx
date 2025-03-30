@@ -12,15 +12,17 @@ import {
 import { createClient } from '@/server/supabase/server';
 
 export async function UserMenu() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  const session = await supabase.auth.getUser();
+  const {
+    data: { user }
+  } = await supabase.auth.getUser();
 
-  if (!session.data.user) {
+  if (!user) {
     return null;
   }
 
-  const displayName: string = session.data.user.user_metadata.display_name;
+  const displayName: string = user.user_metadata.display_name;
   const nameArray = displayName.split(' ');
   const fallbackName = `${nameArray[0][0].toUpperCase()}${nameArray[1][0].toUpperCase()}`;
 
@@ -29,14 +31,12 @@ export async function UserMenu() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="flex items-center gap-2 py-8">
           <span className="sr-only">Toggle user menu</span>
-          <div className="flex h-9 w-9 items-center justify-center rounded-full bg-foreground text-background">
+          <div className="bg-foreground text-background flex h-9 w-9 items-center justify-center rounded-full">
             {fallbackName}
           </div>
           <div className="hidden flex-col items-start md:flex">
             <p className="font-bold">{displayName}</p>
-            <p className="text-sm text-muted-foreground">
-              {session.data.user.email}
-            </p>
+            <p className="text-muted-foreground text-sm">{user.email}</p>
           </div>
         </Button>
       </DropdownMenuTrigger>

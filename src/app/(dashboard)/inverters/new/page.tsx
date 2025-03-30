@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function NewInverterPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const manufacturers = await getManufacturers(supabase);
 

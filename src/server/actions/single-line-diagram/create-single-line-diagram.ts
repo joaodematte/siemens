@@ -268,9 +268,7 @@ async function getFontFile() {
 
   if (inMemory) return inMemory;
 
-  return fs.readFile(
-    path.join(process.cwd(), 'assets', 'fonts', 'calibri.ttf')
-  );
+  return fs.readFile(path.join(process.cwd(), 'assets', 'fonts', 'calibri.ttf'));
 }
 
 async function generatePdf(
@@ -284,10 +282,7 @@ async function generatePdf(
 
   const pdfCacheKey = `${data.company}/${data.invertersQuantity}-inverter/${data.connectionType}.pdf`;
 
-  const [pdfFile, fontFile] = await Promise.all([
-    getPdfFile(pdfCacheKey),
-    getFontFile()
-  ]);
+  const [pdfFile, fontFile] = await Promise.all([getPdfFile(pdfCacheKey), getFontFile()]);
 
   if (!cache.get(pdfCacheKey)) cache.set(pdfCacheKey, pdfFile);
   if (!cache.get('font')) cache.set('font', fontFile);
@@ -300,16 +295,13 @@ async function generatePdf(
   const pages = pdfDoc.getPages();
   const page = pages[0];
 
-  const positions =
-    textPositions[data.company][data.invertersQuantity][data.connectionType];
+  const positions = textPositions[data.company][data.invertersQuantity][data.connectionType];
 
   // Consumer Unit -- START
   page.drawText(`Medidor\n${data.consumerUnit}`, {
     font,
     size: FONT_SIZE,
-    x:
-      positions.consumerUnit[0] -
-      font.widthOfTextAtSize(data.consumerUnit, FONT_SIZE),
+    x: positions.consumerUnit[0] - font.widthOfTextAtSize(data.consumerUnit, FONT_SIZE),
     y: positions.consumerUnit[1],
     lineHeight: FONT_SIZE
   });
@@ -330,9 +322,7 @@ async function generatePdf(
   page.drawText('Inversor 1', {
     font,
     size: inverterFontSize,
-    x:
-      positions.firstInverter[0] -
-      font.widthOfTextAtSize('Inversor 1', inverterFontSize) / 2,
+    x: positions.firstInverter[0] - font.widthOfTextAtSize('Inversor 1', inverterFontSize) / 2,
     y: positions.firstInverter[1],
     lineHeight: inverterFontSize
   });
@@ -356,9 +346,7 @@ async function generatePdf(
   page.drawText(data.firstInverterModel, {
     font,
     size: inverterFontSize,
-    x:
-      positions.firstInverterModel[0] -
-      font.widthOfTextAtSize(data.firstInverterModel, inverterFontSize) / 2,
+    x: positions.firstInverterModel[0] - font.widthOfTextAtSize(data.firstInverterModel, inverterFontSize) / 2,
     y: positions.firstInverterModel[1],
     lineHeight: inverterFontSize
   });
@@ -369,11 +357,7 @@ async function generatePdf(
       size: inverterFontSize,
       x:
         positions.firstInverterInmetroCode[0] -
-        font.widthOfTextAtSize(
-          data.firstInverter.inmetro_code,
-          inverterFontSize
-        ) /
-          2,
+        font.widthOfTextAtSize(data.firstInverter.inmetro_code, inverterFontSize) / 2,
       y: positions.firstInverterInmetroCode[1],
       lineHeight: inverterFontSize
     });
@@ -391,9 +375,7 @@ async function generatePdf(
     page.drawText('Inversor 2', {
       font,
       size: inverterFontSize,
-      x:
-        positions.secondInverter[0] -
-        font.widthOfTextAtSize('Inversor 2', inverterFontSize) / 2,
+      x: positions.secondInverter[0] - font.widthOfTextAtSize('Inversor 2', inverterFontSize) / 2,
       y: positions.secondInverter[1],
       lineHeight: inverterFontSize
     });
@@ -417,29 +399,19 @@ async function generatePdf(
     page.drawText(data.secondInverterModel, {
       font,
       size: inverterFontSize,
-      x:
-        positions.secondInverterModel[0] -
-        font.widthOfTextAtSize(data.secondInverterModel, inverterFontSize) / 2,
+      x: positions.secondInverterModel[0] - font.widthOfTextAtSize(data.secondInverterModel, inverterFontSize) / 2,
       y: positions.secondInverterModel[1],
       lineHeight: inverterFontSize
     });
   }
 
-  if (
-    data.secondInverter &&
-    data.secondInverter.inmetro_code &&
-    positions.secondInverterInmetroCode
-  ) {
+  if (data.secondInverter && data.secondInverter.inmetro_code && positions.secondInverterInmetroCode) {
     page.drawText(data.secondInverter.inmetro_code, {
       font,
       size: inverterFontSize,
       x:
         positions.secondInverterInmetroCode[0] -
-        font.widthOfTextAtSize(
-          data.secondInverter.inmetro_code,
-          inverterFontSize
-        ) /
-          2,
+        font.widthOfTextAtSize(data.secondInverter.inmetro_code, inverterFontSize) / 2,
       y: positions.secondInverterInmetroCode[1],
       lineHeight: inverterFontSize
     });
@@ -469,9 +441,7 @@ async function generatePdf(
   page.drawText(data.panelModel, {
     font,
     size: FONT_SIZE,
-    x:
-      positions.firstPanelModel[0] -
-      font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
+    x: positions.firstPanelModel[0] - font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
     y: positions.firstPanelModel[1],
     lineHeight: FONT_SIZE
   });
@@ -481,9 +451,7 @@ async function generatePdf(
   page.drawText(panelPowerString, {
     font,
     size: FONT_SIZE,
-    x:
-      positions.firstPanelPower[0] -
-      font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
+    x: positions.firstPanelPower[0] - font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
     y: positions.firstPanelPower[1],
     lineHeight: FONT_SIZE
   });
@@ -516,9 +484,7 @@ async function generatePdf(
     page.drawText(data.panelModel, {
       font,
       size: FONT_SIZE,
-      x:
-        positions.secondPanelModel[0] -
-        font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
+      x: positions.secondPanelModel[0] - font.widthOfTextAtSize(data.panelModel, FONT_SIZE) / 2,
       y: positions.secondPanelModel[1],
       lineHeight: FONT_SIZE
     });
@@ -528,9 +494,7 @@ async function generatePdf(
     page.drawText(panelPowerString, {
       font,
       size: FONT_SIZE,
-      x:
-        positions.secondPanelPower[0] -
-        font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
+      x: positions.secondPanelPower[0] - font.widthOfTextAtSize(panelPowerString, FONT_SIZE) / 2,
       y: positions.secondPanelPower[1],
       lineHeight: FONT_SIZE
     });
@@ -549,23 +513,17 @@ async function generatePdf(
   page.drawText(inverterPower, {
     font,
     size: FONT_SIZE,
-    x:
-      positions.nominalPower[0] -
-      font.widthOfTextAtSize(inverterPower, FONT_SIZE) / 2,
+    x: positions.nominalPower[0] - font.widthOfTextAtSize(inverterPower, FONT_SIZE) / 2,
     y: positions.nominalPower[1],
     lineHeight: FONT_SIZE
   });
 
-  const panelPower = (
-    Number(data.panelPower) * Number(data.panelsAmount)
-  ).toLocaleString('pt-BR');
+  const panelPower = (Number(data.panelPower) * Number(data.panelsAmount)).toLocaleString('pt-BR');
 
   page.drawText(`Módulos = ${panelPower}Wp`, {
     font,
     size: FONT_SIZE,
-    x:
-      positions.panelsPower[0] -
-      font.widthOfTextAtSize(`Módulos = ${panelPower}Wp`, FONT_SIZE) / 2,
+    x: positions.panelsPower[0] - font.widthOfTextAtSize(`Módulos = ${panelPower}Wp`, FONT_SIZE) / 2,
     y: positions.panelsPower[1],
     lineHeight: FONT_SIZE
   });
@@ -576,36 +534,54 @@ async function generatePdf(
   return pdfBytes;
 }
 
-export const createSingleLineDiagram = authActionClient
-  .schema(createSchema)
-  .action(async ({ ctx, parsedInput }) => {
-    const {
-      consumerUnit,
-      circuitBreakerCapacity,
-      connectionType,
-      panelsAmount,
-      panelModel,
-      panelPower,
-      firstInverterModel,
-      secondInverterModel
-    } = parsedInput;
+export const createSingleLineDiagram = authActionClient.schema(createSchema).action(async ({ ctx, parsedInput }) => {
+  const {
+    consumerUnit,
+    circuitBreakerCapacity,
+    connectionType,
+    panelsAmount,
+    panelModel,
+    panelPower,
+    firstInverterModel,
+    secondInverterModel
+  } = parsedInput;
 
-    const { data: panel } = await ctx.supabase
-      .from('panel')
-      .select(
-        `
+  const { data: panel } = await ctx.supabase
+    .from('panel')
+    .select(
+      `
           *,
           manufacturer:manufacturer_id (
             id,
             name
           )
         `
-      )
-      .eq('model', panelModel)
-      .single()
-      .throwOnError();
+    )
+    .eq('model', panelModel)
+    .single()
+    .throwOnError();
 
-    const { data: firstInverter } = await ctx.supabase
+  const { data: firstInverter } = await ctx.supabase
+    .from('inverter')
+    .select(
+      `
+          *,
+          manufacturer:manufacturer_id (
+            id,
+            name
+          )
+      `
+    )
+    .eq('model', firstInverterModel)
+    .single()
+    .throwOnError();
+
+  let secondInverter = undefined;
+
+  if (firstInverterModel === secondInverterModel) {
+    secondInverter = firstInverter;
+  } else if (secondInverterModel !== undefined) {
+    const { data } = await ctx.supabase
       .from('inverter')
       .select(
         `
@@ -616,83 +592,61 @@ export const createSingleLineDiagram = authActionClient
           )
       `
       )
-      .eq('model', firstInverterModel)
+      .eq('model', secondInverterModel)
       .single()
       .throwOnError();
 
-    let secondInverter = undefined;
+    secondInverter = data;
+  }
 
-    if (firstInverterModel === secondInverterModel) {
-      secondInverter = firstInverter;
-    } else if (secondInverterModel !== undefined) {
-      const { data } = await ctx.supabase
-        .from('inverter')
-        .select(
-          `
-          *,
-          manufacturer:manufacturer_id (
-            id,
-            name
-          )
-      `
-        )
-        .eq('model', secondInverterModel)
-        .single()
-        .throwOnError();
+  if (!panel) {
+    throw new Error('Painel não encontrado.');
+  }
 
-      secondInverter = data;
-    }
+  if (!firstInverter) {
+    throw new Error('Inversor 1 não encontrado.');
+  }
 
-    if (!panel) {
-      throw new Error('Painel não encontrado.');
-    }
+  if (!secondInverter && secondInverterModel !== undefined) {
+    throw new Error('Inversor 2 não encontrado.');
+  }
 
-    if (!firstInverter) {
-      throw new Error('Inversor 1 não encontrado.');
-    }
+  const { data: singleLineDiagram } = await ctx.supabase
+    .from('single_line_diagram')
+    .insert({
+      consumer_unit: consumerUnit,
+      circuit_breaker_capacity: Number(circuitBreakerCapacity),
+      connection_type: connectionType,
+      panels_amount: Number(panelsAmount),
+      panel_model: panelModel,
+      panel_power: panelPower,
+      first_inverter_model: firstInverterModel,
+      second_inverter_model: secondInverterModel
+    })
+    .select('*')
+    .single()
+    .throwOnError();
 
-    if (!secondInverter && secondInverterModel !== undefined) {
-      throw new Error('Inversor 2 não encontrado.');
-    }
+  if (!singleLineDiagram) {
+    throw new Error('Erro ao criar diagrama unifilar simplificado no banco de dados.');
+  }
 
-    const { data: singleLineDiagram } = await ctx.supabase
-      .from('single_line_diagram')
-      .insert({
-        consumer_unit: consumerUnit,
-        circuit_breaker_capacity: Number(circuitBreakerCapacity),
-        connection_type: connectionType,
-        panels_amount: Number(panelsAmount),
-        panel_model: panelModel,
-        panel_power: panelPower,
-        first_inverter_model: firstInverterModel,
-        second_inverter_model: secondInverterModel
-      })
-      .select('*')
-      .single()
-      .throwOnError();
-
-    if (!singleLineDiagram) {
-      throw new Error(
-        'Erro ao criar diagrama unifilar simplificado no banco de dados.'
-      );
-    }
-
-    const buffer = await generatePdf({
-      ...parsedInput,
-      panel,
-      firstInverter,
-      secondInverter
-    });
-
-    revalidateTag('single-line-diagram');
-    revalidateTag(`single_line_diagram_${singleLineDiagram.id}`);
-
-    return {
-      success: true,
-      message: 'Diagrama Unifilar Simplificado criado com sucesso.',
-      file: {
-        buffer,
-        name: `${singleLineDiagram.id}.pdf`
-      }
-    };
+  const buffer = await generatePdf({
+    ...parsedInput,
+    panel,
+    firstInverter,
+    secondInverter
   });
+
+  revalidateTag('single-line-diagram');
+  revalidateTag(`single_line_diagram_${singleLineDiagram.id}`);
+
+  return {
+    success: true,
+    message: 'Diagrama Unifilar Simplificado criado com sucesso.',
+    file: {
+      buffer,
+      name: `${singleLineDiagram.id}.pdf`
+    }
+  };
+});

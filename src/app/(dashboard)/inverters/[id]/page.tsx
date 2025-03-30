@@ -14,17 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default async function EditInverterPage({ params }: Props) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  const [manufacturers, inverter] = await Promise.all([
-    getManufacturers(supabase),
-    getInverter(supabase, params.id)
-  ]);
+  const [manufacturers, inverter] = await Promise.all([getManufacturers(supabase), getInverter(supabase, params.id)]);
 
-  return (
-    <EditInverterForm
-      manufacturers={manufacturers ?? []}
-      inverter={inverter ?? null}
-    />
-  );
+  return <EditInverterForm manufacturers={manufacturers ?? []} inverter={inverter ?? null} />;
 }

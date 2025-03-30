@@ -37,9 +37,7 @@ export default function InvertersTable({ inverters }: Props) {
   const router = useRouter();
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [selectedInverterId, setSelectedInverterId] = useState<string | null>(
-    null
-  );
+  const [selectedInverterId, setSelectedInverterId] = useState<string | null>(null);
 
   const { execute } = useAction(deleteInverterAction, {
     onSuccess: ({ data }) => {
@@ -64,18 +62,12 @@ export default function InvertersTable({ inverters }: Props) {
       {
         accessorKey: 'model',
         header: 'Modelo',
-        cell: ({ row }) => (
-          <div className="font-semibold capitalize">
-            {row.getValue('model')}
-          </div>
-        )
+        cell: ({ row }) => <div className="font-semibold capitalize">{row.getValue('model')}</div>
       },
       {
         accessorKey: 'active_power',
         header: 'Potência Ativa (W)',
-        cell: ({ row }) => (
-          <div className="capitalize">{row.getValue('active_power')}</div>
-        )
+        cell: ({ row }) => <div className="capitalize">{row.getValue('active_power')}</div>
       },
       {
         accessorKey: 'manufacturer',
@@ -101,9 +93,7 @@ export default function InvertersTable({ inverters }: Props) {
         id: 'actions',
         enableHiding: false,
         cell: ({ row }) => (
-          <DropdownMenu
-            onOpenChange={() => setSelectedInverterId(row.original.id)}
-          >
+          <DropdownMenu onOpenChange={() => setSelectedInverterId(row.original.id)}>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Abrir menu de ações</span>
@@ -112,14 +102,8 @@ export default function InvertersTable({ inverters }: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => router.push(`/inverters/${row.original.id}`)}
-              >
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
-                Excluir
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push(`/inverters/${row.original.id}`)}>Editar</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>Excluir</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
@@ -141,18 +125,12 @@ export default function InvertersTable({ inverters }: Props) {
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Você tem certeza que deseja excluir este inversor?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
+            <AlertDialogTitle>Você tem certeza que deseja excluir este inversor?</AlertDialogTitle>
+            <AlertDialogDescription>Esta ação não pode ser desfeita.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleDelete(selectedInverterId)}>
-              Excluir
-            </AlertDialogAction>
+            <AlertDialogAction onClick={() => handleDelete(selectedInverterId)}>Excluir</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

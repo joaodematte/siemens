@@ -1,7 +1,4 @@
-import {
-  DEFAULT_SERVER_ERROR_MESSAGE,
-  createSafeActionClient
-} from 'next-safe-action';
+import { createSafeActionClient, DEFAULT_SERVER_ERROR_MESSAGE } from 'next-safe-action';
 
 import { createClient } from '@/server/supabase/server';
 
@@ -14,7 +11,7 @@ export const actionClient = createSafeActionClient({
     return DEFAULT_SERVER_ERROR_MESSAGE;
   }
 }).use(async ({ next }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   return next({
     ctx: {

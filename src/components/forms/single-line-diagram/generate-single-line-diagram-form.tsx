@@ -1,42 +1,25 @@
 'use client';
 
-import { ComboBox } from '@/components/combo-box';
-import { LoadingIcon } from '@/components/loading-icon';
-import { Button } from '@/components/ui/button';
-import {
-  Dialog,
-  DialogContent,
-  DialogFooter,
-  DialogTrigger
-} from '@/components/ui/dialog';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select';
-import { Separator } from '@/components/ui/separator';
-import { useFileDownload } from '@/hooks/useFileDownload';
-import { cn } from '@/lib/utils';
-import { createSingleLineDiagram } from '@/server/actions/single-line-diagram/create-single-line-diagram';
-import { createSchema } from '@/server/schemas/single-line-diagram';
-import { Inverter, Panel } from '@/server/supabase/types';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useAction } from 'next-safe-action/hooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
+
+import { ComboBox } from '@/components/combo-box';
+import { LoadingIcon } from '@/components/loading-icon';
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Separator } from '@/components/ui/separator';
+import { useFileDownload } from '@/hooks/useFileDownload';
+import { cn } from '@/lib/utils';
+import { createSingleLineDiagram } from '@/server/actions/single-line-diagram/create-single-line-diagram';
+import { createSchema } from '@/server/schemas/single-line-diagram';
+import { Inverter, Panel } from '@/server/supabase/types';
 
 interface Props {
   panels: Panel[] | null;
@@ -112,10 +95,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
 
   const panelModel = form.watch('panelModel');
 
-  const selectedPanel = useMemo(
-    () => panels?.find((panel) => panel.model === panelModel),
-    [panelModel, panels]
-  );
+  const selectedPanel = useMemo(() => panels?.find((panel) => panel.model === panelModel), [panelModel, panels]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -135,10 +115,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(execute)}
-        className="grid grid-cols-1 gap-4 md:max-w-2xl md:grid-cols-2"
-      >
+      <form onSubmit={form.handleSubmit(execute)} className="grid grid-cols-1 gap-4 md:max-w-2xl md:grid-cols-2">
         <FormField
           control={form.control}
           name="company"
@@ -184,11 +161,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
             <FormItem>
               <FormLabel>Capacidade do Disjuntor (A)</FormLabel>
               <FormControl>
-                <Input
-                  autoComplete="off"
-                  {...field}
-                  onChange={handleInputChange}
-                />
+                <Input autoComplete="off" {...field} onChange={handleInputChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -225,11 +198,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
             <FormItem>
               <FormLabel>Quantidade de Módulos</FormLabel>
               <FormControl>
-                <Input
-                  autoComplete="off"
-                  {...field}
-                  onChange={handleInputChange}
-                />
+                <Input autoComplete="off" {...field} onChange={handleInputChange} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -261,11 +230,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Potência dos Painéis</FormLabel>
-              <Select
-                onValueChange={field.onChange}
-                value={field.value}
-                disabled={!selectedPanel}
-              >
+              <Select onValueChange={field.onChange} value={field.value} disabled={!selectedPanel}>
                 <SelectTrigger>
                   <SelectValue placeholder="Selecione..." />
                 </SelectTrigger>
@@ -292,11 +257,11 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
             <FormItem className="col-span-2 grid">
               <FormLabel>Quantidade de Inversores</FormLabel>
               <FormControl>
-                <div className="grid grid-cols-2 w-full gap-4 h-12">
+                <div className="grid h-12 w-full grid-cols-2 gap-4">
                   <button
                     type="button"
                     className={cn(
-                      'border-border border rounded-md focus-visible:outline-primary transition-colors duraiton-200 hover:bg-accent',
+                      'border-border focus-visible:outline-primary duraiton-200 hover:bg-accent rounded-md border transition-colors',
                       invertersQuantity === 'one' && 'border-primary border-4'
                     )}
                     onClick={() => {
@@ -311,7 +276,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   <button
                     type="button"
                     className={cn(
-                      'border-border border rounded-md focus-visible:outline-primary transition-colors duraiton-200 hover:bg-accent',
+                      'border-border focus-visible:outline-primary duraiton-200 hover:bg-accent rounded-md border transition-colors',
                       hasTwoInverters && 'border-primary border-4'
                     )}
                     onClick={() => {
@@ -355,11 +320,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                 <FormItem>
                   <FormLabel>Quantidade de Módulos no Inversor 1</FormLabel>
                   <FormControl>
-                    <Input
-                      autoComplete="off"
-                      {...field}
-                      onChange={handleInputChange}
-                    />
+                    <Input autoComplete="off" {...field} onChange={handleInputChange} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -397,11 +358,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
                   <FormItem>
                     <FormLabel>Quantidade de Módulos no Inversor 2</FormLabel>
                     <FormControl>
-                      <Input
-                        autoComplete="off"
-                        {...field}
-                        onChange={handleInputChange}
-                      />
+                      <Input autoComplete="off" {...field} onChange={handleInputChange} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -430,7 +387,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
       </form>
 
       <Dialog open={isViewerOpen} onOpenChange={setIsViewerOpen}>
-        <DialogContent className="w-full h-[900px] max-w-7xl pt-12 flex flex-col">
+        <DialogContent className="flex h-[900px] w-full max-w-7xl flex-col pt-12">
           <iframe ref={iframeRef} width="100%" height="100%" className="grow" />
           <DialogFooter>
             <Button

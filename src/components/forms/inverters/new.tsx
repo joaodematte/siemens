@@ -10,14 +10,7 @@ import { z } from 'zod';
 import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { createInverterAction } from '@/server/actions/inverter/create-inverter-action';
 import { createSchema } from '@/server/schemas/inverter';
@@ -60,10 +53,7 @@ export function NewInverterForm({ manufacturers }: Props) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(execute)}
-        className="grid grid-cols-2 gap-4 lg:max-w-2xl"
-      >
+      <form onSubmit={form.handleSubmit(execute)} className="grid grid-cols-2 gap-4 lg:max-w-2xl">
         <FormField
           control={form.control}
           name="model"
@@ -122,9 +112,7 @@ export function NewInverterForm({ manufacturers }: Props) {
                 <Input
                   autoComplete="off"
                   {...field}
-                  onChange={(e) =>
-                    field.onChange(e.target.value.replace(/[^0-9]/g, ''))
-                  }
+                  onChange={(e) => field.onChange(e.target.value.replace(/[^0-9]/g, ''))}
                 />
               </FormControl>
               <FormMessage />

@@ -9,11 +9,5 @@ export function ThemeSwitcher() {
 
   const label = theme === 'light' ? 'Tema escuro' : ' Tema claro';
 
-  return (
-    <DropdownMenuItem
-      onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-    >
-      {label}
-    </DropdownMenuItem>
-  );
+  return <DropdownMenuItem onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}>{label}</DropdownMenuItem>;
 }

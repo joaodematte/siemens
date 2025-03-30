@@ -14,12 +14,9 @@ export const metadata: Metadata = {
 };
 
 export default async function EditPanelPage({ params }: Props) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  const [manufacturers, panel] = await Promise.all([
-    getManufacturers(supabase),
-    getPanel(supabase, params.id)
-  ]);
+  const [manufacturers, panel] = await Promise.all([getManufacturers(supabase), getPanel(supabase, params.id)]);
 
   return <EditPanelForm manufacturers={manufacturers ?? []} panel={panel} />;
 }

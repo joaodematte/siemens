@@ -8,12 +8,7 @@ interface Props {
 
 export function Providers({ children }: Props) {
   return (
-    <ThemeProvider
-      attribute="class"
-      defaultTheme="dark"
-      enableSystem
-      disableTransitionOnChange
-    >
+    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
       {children}
       <Toaster position="top-right" duration={2000} />
     </ThemeProvider>

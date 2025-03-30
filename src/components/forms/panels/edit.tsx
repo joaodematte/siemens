@@ -12,15 +12,7 @@ import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { updatePanelAction } from '@/server/actions/panel/update-panel-action';
 import { createSchema } from '@/server/schemas/panel';
@@ -71,8 +63,7 @@ export function EditPanelForm({ manufacturers, panel }: Props) {
       const power = Number(value.slice(0, -1));
       const powerInForm = form.getValues('power');
 
-      if (!powerInForm.includes(power))
-        form.setValue('power', [...powerInForm, power]);
+      if (!powerInForm.includes(power)) form.setValue('power', [...powerInForm, power]);
 
       setPowerInput('');
       return;
@@ -141,19 +132,14 @@ export function EditPanelForm({ manufacturers, panel }: Props) {
             <FormItem className="col-span-2">
               <FormLabel>Potências (W)</FormLabel>
               <FormControl>
-                <Input
-                  autoComplete="off"
-                  value={powerInput}
-                  onChange={(e) => handlePowerChange(e.target.value)}
-                />
+                <Input autoComplete="off" value={powerInput} onChange={(e) => handlePowerChange(e.target.value)} />
               </FormControl>
               <FormDescription>Separe-as por vírgula </FormDescription>
               <FormMessage />
               <div className="flex items-center gap-1">
                 {form.getValues('power').map((power) => (
                   <Badge key={power} className="flex items-center gap-1">
-                    <span>{power}W</span>{' '}
-                    <button onClick={() => handleRemovePower(power)}>x</button>
+                    <span>{power}W</span> <button onClick={() => handleRemovePower(power)}>x</button>
                   </Badge>
                 ))}
               </div>
@@ -178,13 +164,10 @@ export function EditPanelForm({ manufacturers, panel }: Props) {
           <FormControl>
             <Input
               disabled
-              value={new Date(panel?.created_at ?? '').toLocaleDateString(
-                'pt-BR',
-                {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }
-              )}
+              value={new Date(panel?.created_at ?? '').toLocaleDateString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
             />
           </FormControl>
           <FormMessage />
@@ -195,13 +178,10 @@ export function EditPanelForm({ manufacturers, panel }: Props) {
           <FormControl>
             <Input
               disabled
-              value={new Date(panel?.updated_at ?? '').toLocaleDateString(
-                'pt-BR',
-                {
-                  hour: '2-digit',
-                  minute: '2-digit'
-                }
-              )}
+              value={new Date(panel?.updated_at ?? '').toLocaleDateString('pt-BR', {
+                hour: '2-digit',
+                minute: '2-digit'
+              })}
             />
           </FormControl>
           <FormMessage />

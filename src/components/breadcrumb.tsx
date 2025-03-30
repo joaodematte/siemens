@@ -32,15 +32,7 @@ export function Breadcrumb() {
                 <BreadcrumbPage>{item.label}</BreadcrumbPage>
               ) : (
                 <BreadcrumbLink asChild>
-                  <Link
-                    href={
-                      typeof item.href === 'function'
-                        ? item.href(lastPath)
-                        : item.href
-                    }
-                  >
-                    {item.label}
-                  </Link>
+                  <Link href={typeof item.href === 'function' ? item.href(lastPath) : item.href}>{item.label}</Link>
                 </BreadcrumbLink>
               )}
             </BreadcrumbItem>

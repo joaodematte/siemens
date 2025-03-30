@@ -62,15 +62,13 @@ function SidebarItem({ item }: { item: (typeof sidebarItems)[number] }) {
     return <Separator className="my-4" />;
   }
 
-  const active =
-    pathname === item.href ||
-    (item.href !== '/' && pathname.startsWith(item.href + '/'));
+  const active = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href + '/'));
 
   return (
     <Link
       href={item.href}
       className={cn(
-        'flex w-full items-center gap-4 rounded-md px-4 py-2 text-sm font-bold text-muted-foreground transition-colors hover:bg-accent hover:text-foreground  focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+        'text-muted-foreground hover:bg-accent hover:text-foreground focus-visible:ring-primary focus-visible:ring-offset-background flex w-full items-center gap-4 rounded-md px-4 py-2 text-sm font-bold transition-colors focus-visible:ring-2 focus-visible:ring-offset-2',
         active && 'bg-accent text-foreground'
       )}
     >

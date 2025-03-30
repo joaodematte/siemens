@@ -10,15 +10,7 @@ import { z } from 'zod';
 
 import { LoadingIcon } from '@/components/loading-icon';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { registerAction } from '@/server/actions/auth/register-action';
 import { registerSchema } from '@/server/schemas/auth/register-schema';
@@ -59,11 +51,7 @@ export function RegisterForm() {
               <FormItem>
                 <FormLabel>Nome</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="John"
-                    autoComplete="given-name"
-                    {...field}
-                  />
+                  <Input placeholder="John" autoComplete="given-name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -77,11 +65,7 @@ export function RegisterForm() {
               <FormItem>
                 <FormLabel>Sobrenome</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="Doe"
-                    autoComplete="family-name"
-                    {...field}
-                  />
+                  <Input placeholder="Doe" autoComplete="family-name" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -96,15 +80,9 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="johndoe@topsun.com.br"
-                  autoComplete="email"
-                  {...field}
-                />
+                <Input placeholder="johndoe@topsun.com.br" autoComplete="email" {...field} />
               </FormControl>
-              <FormDescription>
-                Necessário terminar com @topsun.com.br
-              </FormDescription>
+              <FormDescription>Necessário terminar com @topsun.com.br</FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -117,12 +95,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="••••••••"
-                  autoComplete="new-password"
-                  type="password"
-                  {...field}
-                />
+                <Input placeholder="••••••••" autoComplete="new-password" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -136,12 +109,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>Senha</FormLabel>
               <FormControl>
-                <Input
-                  placeholder="••••••••"
-                  autoComplete="new-password"
-                  type="password"
-                  {...field}
-                />
+                <Input placeholder="••••••••" autoComplete="new-password" type="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -151,10 +119,7 @@ export function RegisterForm() {
         <Button className="w-full" disabled={isPending}>
           {isPending ? <LoadingIcon className="h-4 w-4" /> : 'Confirmar'}
         </Button>
-        <Link
-          href="/login"
-          className="mt-2 text-center text-xs text-muted-foreground underline"
-        >
+        <Link href="/login" className="text-muted-foreground mt-2 text-center text-xs underline">
           Voltar à página de login
         </Link>
       </form>

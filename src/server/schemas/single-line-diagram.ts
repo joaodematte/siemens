@@ -16,8 +16,7 @@ export const createSchema = z
     secondInverterPanelsAmount: z.string().optional()
   })
   .refine(
-    ({ invertersQuantity, secondInverterModel }) =>
-      invertersQuantity === 'one' || secondInverterModel !== undefined,
+    ({ invertersQuantity, secondInverterModel }) => invertersQuantity === 'one' || secondInverterModel !== undefined,
     {
       message: 'Campo obrigatório',
       path: ['secondInverterModel']
@@ -25,9 +24,7 @@ export const createSchema = z
   )
   .refine(
     ({ invertersQuantity, firstInverterPanelsAmount }) => {
-      return (
-        invertersQuantity === 'one' || firstInverterPanelsAmount !== undefined
-      );
+      return invertersQuantity === 'one' || firstInverterPanelsAmount !== undefined;
     },
     {
       message: 'Campo obrigatório',
@@ -36,9 +33,7 @@ export const createSchema = z
   )
   .refine(
     ({ invertersQuantity, secondInverterPanelsAmount }) => {
-      return (
-        invertersQuantity === 'one' || secondInverterPanelsAmount !== undefined
-      );
+      return invertersQuantity === 'one' || secondInverterPanelsAmount !== undefined;
     },
     {
       message: 'Campo obrigatório',
@@ -46,12 +41,7 @@ export const createSchema = z
     }
   )
   .refine(
-    ({
-      invertersQuantity,
-      firstInverterPanelsAmount,
-      secondInverterPanelsAmount,
-      panelsAmount
-    }) => {
+    ({ invertersQuantity, firstInverterPanelsAmount, secondInverterPanelsAmount, panelsAmount }) => {
       if (invertersQuantity !== 'one') {
         const firstAmount = Number(firstInverterPanelsAmount);
         const secondAmount = Number(secondInverterPanelsAmount);
@@ -63,8 +53,7 @@ export const createSchema = z
       return true;
     },
     {
-      message:
-        'Soma dos módulos do Inversor 1 e Inversor 2 precisam ser igual a quantidade de módulos',
+      message: 'Soma dos módulos do Inversor 1 e Inversor 2 precisam ser igual a quantidade de módulos',
       path: ['secondInverterPanelsAmount']
     }
   );

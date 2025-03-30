@@ -5,11 +5,7 @@ import { Client } from '@/server/supabase/types';
 export async function getManufacturer(supabase: Client, id: string) {
   return unstable_cache(
     async () => {
-      const { data } = await supabase
-        .from('manufacturer')
-        .select('*')
-        .eq('id', id)
-        .throwOnError();
+      const { data } = await supabase.from('manufacturer').select('*').eq('id', id).throwOnError();
 
       return data;
     },

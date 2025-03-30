@@ -62,19 +62,13 @@ export default function PanelsTable({ panels }: Props) {
       {
         accessorKey: 'model',
         header: 'Modelo',
-        cell: ({ row }) => (
-          <div className="font-semibold capitalize">
-            {row.getValue('model')}
-          </div>
-        )
+        cell: ({ row }) => <div className="font-semibold capitalize">{row.getValue('model')}</div>
       },
       {
         accessorKey: 'power',
         header: 'Potência(s) (W)',
         cell: ({ row }) => (
-          <div className="capitalize">
-            {(JSON.parse(row.getValue<string>('power')) as string[]).join(', ')}
-          </div>
+          <div className="capitalize">{(JSON.parse(row.getValue<string>('power')) as string[]).join(', ')}</div>
         )
       },
       {
@@ -102,9 +96,7 @@ export default function PanelsTable({ panels }: Props) {
         id: 'actions',
         enableHiding: false,
         cell: ({ row }) => (
-          <DropdownMenu
-            onOpenChange={() => setSelectedPanelId(row.original.id)}
-          >
+          <DropdownMenu onOpenChange={() => setSelectedPanelId(row.original.id)}>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" className="h-8 w-8 p-0">
                 <span className="sr-only">Abrir menu de ações</span>
@@ -113,14 +105,8 @@ export default function PanelsTable({ panels }: Props) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => router.push(`/panels/${row.original.id}`)}
-              >
-                Editar
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>
-                Excluir
-              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => router.push(`/panels/${row.original.id}`)}>Editar</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setIsDialogOpen(true)}>Excluir</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )
@@ -142,18 +128,12 @@ export default function PanelsTable({ panels }: Props) {
       <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>
-              Você tem certeza que deseja excluir este painel?
-            </AlertDialogTitle>
-            <AlertDialogDescription>
-              Esta ação não pode ser desfeita.
-            </AlertDialogDescription>
+            <AlertDialogTitle>Você tem certeza que deseja excluir este painel?</AlertDialogTitle>
+            <AlertDialogDescription>Esta ação não pode ser desfeita.</AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancelar</AlertDialogCancel>
-            <AlertDialogAction onClick={() => handleDelete(selectedPanelId)}>
-              Excluir
-            </AlertDialogAction>
+            <AlertDialogAction onClick={() => handleDelete(selectedPanelId)}>Excluir</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

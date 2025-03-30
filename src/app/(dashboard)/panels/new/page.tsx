@@ -3,7 +3,7 @@ import { getManufacturers } from '@/server/queries/manufacturers/get-manufacture
 import { createClient } from '@/server/supabase/server';
 
 export default async function NewPanelPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const manufacturers = await getManufacturers(supabase);
 

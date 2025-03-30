@@ -11,15 +11,7 @@ import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage
-} from '@/components/ui/form';
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { createPanelAction } from '@/server/actions/panel/create-panel-action';
 import { createSchema } from '@/server/schemas/panel';
@@ -66,8 +58,7 @@ export function NewPanelForm({ manufacturers }: Props) {
       const power = Number(value.slice(0, -1));
       const powerInForm = form.getValues('power');
 
-      if (!powerInForm.includes(power))
-        form.setValue('power', [...powerInForm, power]);
+      if (!powerInForm.includes(power)) form.setValue('power', [...powerInForm, power]);
 
       setPowerInput('');
       return;
@@ -87,10 +78,7 @@ export function NewPanelForm({ manufacturers }: Props) {
 
   return (
     <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit((data) => execute(data))}
-        className="grid grid-cols-2 gap-4 lg:max-w-2xl"
-      >
+      <form onSubmit={form.handleSubmit((data) => execute(data))} className="grid grid-cols-2 gap-4 lg:max-w-2xl">
         <FormField
           control={form.control}
           name="model"
@@ -132,19 +120,14 @@ export function NewPanelForm({ manufacturers }: Props) {
             <FormItem className="col-span-2">
               <FormLabel>Potências (W)</FormLabel>
               <FormControl>
-                <Input
-                  autoComplete="off"
-                  value={powerInput}
-                  onChange={(e) => handlePowerChange(e.target.value)}
-                />
+                <Input autoComplete="off" value={powerInput} onChange={(e) => handlePowerChange(e.target.value)} />
               </FormControl>
               <FormDescription>Separe-as por vírgula </FormDescription>
               <FormMessage />
               <div className="flex items-center gap-1">
                 {form.getValues('power').map((power) => (
                   <Badge key={power} className="flex items-center gap-1">
-                    <span>{power}W</span>{' '}
-                    <button onClick={() => handleRemovePower(power)}>x</button>
+                    <span>{power}W</span> <button onClick={() => handleRemovePower(power)}>x</button>
                   </Badge>
                 ))}
               </div>

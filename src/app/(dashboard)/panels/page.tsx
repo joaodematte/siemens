@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 export default async function PanelsPage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const panels = await getPanels(supabase);
 

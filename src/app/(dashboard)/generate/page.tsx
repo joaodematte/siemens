@@ -10,14 +10,9 @@ export const metadata: Metadata = {
 };
 
 export default async function GeneratePage() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  const [panels, inverters] = await Promise.all([
-    getPanels(supabase),
-    getInverters(supabase)
-  ]);
+  const [panels, inverters] = await Promise.all([getPanels(supabase), getInverters(supabase)]);
 
-  return (
-    <GenerateSingleLineDiagramForm panels={panels} inverters={inverters} />
-  );
+  return <GenerateSingleLineDiagramForm panels={panels} inverters={inverters} />;
 }
