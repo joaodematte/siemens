@@ -6,7 +6,7 @@ import { getManufacturers } from '@/server/queries/manufacturers/get-manufacture
 import { createClient } from '@/server/supabase/server';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export const metadata: Metadata = {
@@ -14,9 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function EditInverterPage({ params }: Props) {
+  const { id } = await params;
+
   const supabase = await createClient();
 
-  const [manufacturers, inverter] = await Promise.all([getManufacturers(supabase), getInverter(supabase, params.id)]);
+  const [manufacturers, inverter] = await Promise.all([getManufacturers(supabase), getInverter(supabase, id)]);
 
   return <EditInverterForm manufacturers={manufacturers ?? []} inverter={inverter ?? null} />;
 }

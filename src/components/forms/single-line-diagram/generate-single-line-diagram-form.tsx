@@ -10,7 +10,7 @@ import { z } from 'zod';
 import { ComboBox } from '@/components/combo-box';
 import { LoadingIcon } from '@/components/loading-icon';
 import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogFooter, DialogTrigger } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -387,7 +387,8 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
       </form>
 
       <Dialog open={isViewerOpen} onOpenChange={setIsViewerOpen}>
-        <DialogContent className="flex h-[calc(100vh-24px)] w-full flex-col pt-12 md:max-w-[calc(100%-2rem)] xl:max-w-7xl">
+        <DialogContent className="flex h-[calc(100vh-24px)] w-full flex-col md:max-w-[calc(100%-2rem)] xl:max-w-7xl">
+          <DialogTitle>Modelo gerado</DialogTitle>
           <iframe ref={iframeRef} width="100%" height="100%" className="grow" />
           <DialogFooter>
             <Button

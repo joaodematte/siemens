@@ -6,7 +6,7 @@ import { getPanel } from '@/server/queries/panel/get-panel';
 import { createClient } from '@/server/supabase/server';
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }
 
 export const metadata: Metadata = {
@@ -14,9 +14,11 @@ export const metadata: Metadata = {
 };
 
 export default async function EditPanelPage({ params }: Props) {
+  const { id } = await params;
+
   const supabase = await createClient();
 
-  const [manufacturers, panel] = await Promise.all([getManufacturers(supabase), getPanel(supabase, params.id)]);
+  const [manufacturers, panel] = await Promise.all([getManufacturers(supabase), getPanel(supabase, id)]);
 
   return <EditPanelForm manufacturers={manufacturers ?? []} panel={panel} />;
 }
