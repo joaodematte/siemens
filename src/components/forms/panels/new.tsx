@@ -97,7 +97,7 @@ export function NewPanelForm({ manufacturers }: Props) {
           control={form.control}
           name="manufacturer"
           render={({ field }) => (
-            <FormItem className="block">
+            <FormItem>
               <FormLabel>Fabricante</FormLabel>
               <FormControl>
                 <ComboBox

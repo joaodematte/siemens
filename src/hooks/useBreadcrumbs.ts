@@ -1,5 +1,4 @@
 import { usePathname } from 'next/navigation';
-import { useMemo } from 'react';
 
 interface BreadcrumbConfig {
   [key: string]: { label: string; href: string | ((id: string) => string) };
@@ -7,7 +6,7 @@ interface BreadcrumbConfig {
 
 export const breadcrumbConfig: BreadcrumbConfig = {
   '/': { label: 'Dashboard', href: '/' },
-  '/generate': { label: 'Gerar Diagrama', href: '/generate' },
+  '/generate-model': { label: 'Gerar Modelo', href: '/generate-model' },
   '/inverters': { label: 'Inversores', href: '/inverters' },
   '/inverters/new': { label: 'Novo', href: '/inverters/new' },
   '/inverters/[id]': {
@@ -26,36 +25,33 @@ export const breadcrumbConfig: BreadcrumbConfig = {
 export function useBreadcrumbs() {
   const pathname = usePathname();
 
-  return useMemo(() => {
-    // Handle root path explicitly
-    if (pathname === '/') {
-      return [breadcrumbConfig['/']];
-    }
+  if (pathname === '/') {
+    return [breadcrumbConfig['/']];
+  }
 
-    const pathSegments = pathname.split('/').filter(Boolean);
-    const breadcrumbs = [];
+  const pathSegments = pathname.split('/').filter(Boolean);
+  const breadcrumbs = [];
 
-    let currentPath = '';
+  let currentPath = '';
 
-    for (const segment of pathSegments) {
-      currentPath += `/${segment}`;
+  for (const segment of pathSegments) {
+    currentPath += `/${segment}`;
 
-      const configKey = Object.keys(breadcrumbConfig).find((key) => {
-        const pattern = new RegExp(`^${key.replace(/\[.*?\]/g, '[^/]+')}$`);
+    const configKey = Object.keys(breadcrumbConfig).find((key) => {
+      const pattern = new RegExp(`^${key.replace(/\[.*?\]/g, '[^/]+')}$`);
 
-        return pattern.test(currentPath);
+      return pattern.test(currentPath);
+    });
+
+    if (configKey) {
+      const item = breadcrumbConfig[configKey];
+
+      breadcrumbs.push({
+        label: item.label,
+        href: typeof item.href === 'function' ? item.href(segment) : item.href
       });
-
-      if (configKey) {
-        const item = breadcrumbConfig[configKey];
-
-        breadcrumbs.push({
-          label: item.label,
-          href: typeof item.href === 'function' ? item.href(segment) : item.href
-        });
-      }
     }
+  }
 
-    return breadcrumbs;
-  }, [pathname]);
+  return breadcrumbs;
 }

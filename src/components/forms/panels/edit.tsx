@@ -109,7 +109,7 @@ export function EditPanelForm({ manufacturers, panel }: Props) {
           control={form.control}
           name="manufacturer"
           render={({ field }) => (
-            <FormItem className="block">
+            <FormItem>
               <FormLabel>Fabricante</FormLabel>
               <FormControl>
                 <ComboBox

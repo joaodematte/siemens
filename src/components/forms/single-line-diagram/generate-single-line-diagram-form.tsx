@@ -124,7 +124,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
               <FormLabel>Companhia</FormLabel>
               <FormControl>
                 <Select onValueChange={field.onChange} value={field.value}>
-                  <SelectTrigger>
+                  <SelectTrigger className="w-full">
                     <SelectValue placeholder="Selecione..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -175,7 +175,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
             <FormItem>
               <FormLabel>Tipo de Ligação</FormLabel>
               <Select onValueChange={field.onChange} value={field.value}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Selecione..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -209,7 +209,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
           control={form.control}
           name="panelModel"
           render={({ field }) => (
-            <FormItem className="block">
+            <FormItem>
               <FormLabel>Modelo do Painel</FormLabel>
               <FormControl>
                 <ComboBox
@@ -231,7 +231,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
             <FormItem>
               <FormLabel>Potência dos Painéis</FormLabel>
               <Select onValueChange={field.onChange} value={field.value} disabled={!selectedPanel}>
-                <SelectTrigger>
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Selecione..." />
                 </SelectTrigger>
                 <SelectContent>
@@ -387,7 +387,7 @@ export function GenerateSingleLineDiagramForm({ panels, inverters }: Props) {
       </form>
 
       <Dialog open={isViewerOpen} onOpenChange={setIsViewerOpen}>
-        <DialogContent className="flex h-[900px] w-full max-w-7xl flex-col pt-12">
+        <DialogContent className="flex h-[calc(100vh-24px)] w-full flex-col pt-12 md:max-w-[calc(100%-2rem)] xl:max-w-7xl">
           <iframe ref={iframeRef} width="100%" height="100%" className="grow" />
           <DialogFooter>
             <Button
